@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>CookHub</title>
+        <!--<link rel="stylesheet" th:href="@{/css/styles.css}" />-->
+    </head>
+    <body>
+        <h1>Добавить новый рецепт:</h1>
+        <form method="post">
+            <div>
+                <label for="text">Введите текст рецепта:</label>
+                <input type="text" id="text" name="text" required>
+            </div>
+            <div>
+                <label for="category">Выберите категорию:</label>
+                <select id="category" name="category" required>
+                    <option value="" disabled selected>-- Выберите категорию --</option>
+                    <option th:each="category : ${T(ru.kovalenkojuls.cookhub.enums.RecipeCategory).values()}"
+                            th:value="${category.name()}"
+                            th:text="${category.displayName}"></option>
+                </select>
+            </div>
+            <div>
+                <button type="submit">Добавить рецепт</button>
+            </div>
+        </form>
+
+        <h1>Список рецептов:</h1>
+        <form method="post" action="filter">
+            <label for="category">Выберите категорию:</label>
+            <select id="category-filter" name="category">
+                <option value="" disabled selected>-- Выберите категорию --</option>
+                <option th:each="category : ${T(ru.kovalenkojuls.cookhub.enums.RecipeCategory).values()}"
+                        th:value="${category.name()}"
+                        th:text="${category.displayName}"></option>
+            </select>
+            <button type="submit">Найти</button>
+        </form>
+        <table>
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Рецепт</th>
+                <th>Категория</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="recipe : ${recipes}">
+                <td th:text="${recipe.id}"></td>
+                <td th:text="${recipe.text}"></td>
+                <td th:text="${recipe.category.displayName}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </body>
+</html>
