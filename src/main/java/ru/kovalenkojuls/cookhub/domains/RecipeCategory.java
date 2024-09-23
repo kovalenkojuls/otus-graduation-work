@@ -1,4 +1,4 @@
-package ru.kovalenkojuls.cookhub.enums;
+package ru.kovalenkojuls.cookhub.domains;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

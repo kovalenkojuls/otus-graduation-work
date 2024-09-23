@@ -2,7 +2,7 @@ package ru.kovalenkojuls.cookhub.repositories;
 
 import org.springframework.data.repository.CrudRepository;
 import ru.kovalenkojuls.cookhub.domains.Recipe;
-import ru.kovalenkojuls.cookhub.enums.RecipeCategory;
+import ru.kovalenkojuls.cookhub.domains.RecipeCategory;
 
 import java.util.List;
 

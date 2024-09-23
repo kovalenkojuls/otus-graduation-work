@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import ru.kovalenkojuls.cookhub.enums.RecipeCategory;
 
 @Entity
 @Getter
@@ -15,7 +14,7 @@ public class Recipe {
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
     @Column(name = "id")
-    private Integer id;
+    private Long id;
 
     @Column(name = "text")
     private String text;
