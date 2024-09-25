@@ -1,10 +1,9 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
-    <head>
-        <title>CookHub</title>
-    </head>
+    <div th:include="parts::header"></div>
     <body>
         <h1>Добро пожаловать в CookHub!</h1>
         <a th:href="@{/main}">Перейти к рецептам</a>
     </body>
+    <div th:include="parts::footer"></div>
 </html>

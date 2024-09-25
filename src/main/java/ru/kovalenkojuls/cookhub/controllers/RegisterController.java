@@ -25,6 +25,7 @@ public class RegisterController {
             return new RedirectView("/register?error", true);
         }
         userService.registerUser(username, password);
+
         return new RedirectView("/login", true);
     }
 }

@@ -1,8 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-    <head>
-        <title>Register</title>
-    </head>
+    <div th:include="parts::header"></div>
     <body>
         <h1>Регистрация нового пользователя</h1>
         <div style="color: red" th:if="${param.error}">
@@ -11,7 +9,8 @@
         <form th:action="@{/register}" method="post">
             <input type="text" name="username" placeholder="Имя" required/>
             <input type="password" name="password" placeholder="Пароль" required/>
-            <button type="submit">Зарегистрироваться</button>
+            <input type="submit" value="Зарегистрироваться"/>
         </form>
     </body>
+    <div th:include="parts::footer"></div>
 </html>

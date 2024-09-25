@@ -1,0 +1,18 @@
+<div th:fragment="header">
+    <head>
+        <title>CookHub</title>
+        <!--<link rel="stylesheet" th:href="@{/css/styles.css}" />-->
+    </head>
+</div>
+
+<div th:fragment="footer">
+    <footer>
+        <p>© 2024 CookHub</p>
+    </footer>
+</div>
+
+<div th:fragment="logout">
+    <form th:action="@{/logout}" method="post">
+        <input type="submit" value="Выйти"/>
+    </form>
+</div>

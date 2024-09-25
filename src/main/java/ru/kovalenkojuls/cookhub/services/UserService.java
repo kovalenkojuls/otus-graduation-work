@@ -1,12 +1,13 @@
 package ru.kovalenkojuls.cookhub.services;
 
 import lombok.AllArgsConstructor;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import ru.kovalenkojuls.cookhub.domains.User;
 import ru.kovalenkojuls.cookhub.domains.UserRole;
 import ru.kovalenkojuls.cookhub.repositories.UserRepository;
-
 import java.util.Collections;
 
 @Service
@@ -24,6 +25,16 @@ public class UserService {
         newUser.setActive(true);
 
         return userRepository.save(newUser);
+    }
+
+    public User getCurrentUser() {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (principal instanceof UserDetails) {
+            String username = ((UserDetails) principal).getUsername();
+            return findByUsername(username);
+        } else {
+            return null;
+        }
     }
 
     public User findByUsername(String username) {

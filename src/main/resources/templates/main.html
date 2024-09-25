@@ -1,13 +1,8 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-    <head>
-        <title>CookHub</title>
-        <!--<link rel="stylesheet" th:href="@{/css/styles.css}" />-->
-    </head>
+    <div th:include="parts::header"></div>
     <body>
-        <form th:action="@{/logout}" method="post">
-            <input type="submit" value="Выйти"/>
-        </form>
+        <div th:include="parts::logout"></div>
         <h1>Добавить новый рецепт:</h1>
         <form th:action="@{/main}" method="post">
             <div>
@@ -29,9 +24,9 @@
         </form>
 
         <h1>Список рецептов:</h1>
-        <form th:action="@{/main/filter}" method="post">
+        <form th:action="@{/main}" method="get">
             <label for="category">Выберите категорию:</label>
-            <select id="category-filter" name="category">
+            <select id="category-filter" name="filter">
                 <option value="" disabled selected>-- Выберите категорию --</option>
                 <option th:each="category : ${T(ru.kovalenkojuls.cookhub.domains.RecipeCategory).values()}"
                         th:value="${category.name()}"
@@ -45,6 +40,7 @@
                     <th>ID</th>
                     <th>Рецепт</th>
                     <th>Категория</th>
+                    <th>Автор</th>
                 </tr>
             </thead>
             <tbody>
@@ -55,8 +51,10 @@
                     <td th:text="${recipe.id}"></td>
                     <td th:text="${recipe.text}"></td>
                     <td th:text="${recipe.category.displayName}"></td>
+                    <td th:text="${recipe.author.username}"></td>
                 </tr>
             </tbody>
         </table>
     </body>
+    <div th:include="parts::footer"></div>
 </html>

@@ -1,8 +1,6 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
-    <head>
-        <title>Login</title>
-    </head>
+    <div th:include="parts::header"></div>
     <body>
         <h1>Вход в приложение</h1>
         <div style="color: red" th:if="${param.error}">
@@ -15,4 +13,5 @@
         </form>
         <a th:href="@{/register}">Регистрация нового пользователя</a>
     </body>
+    <div th:include="parts::footer"></div>
 </html>
