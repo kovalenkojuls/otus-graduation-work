@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <div th:insert="~{commonParts::header}"></div>
+    <body>
+        <h1>Список пользователей:</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Имя пользователя</th>
+                    <th>Активен</th>
+                    <th>Роли</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="user : ${users}">
+                    <td th:text="${user.id}"></td>
+                    <td th:text="${user.username}"></td>
+                    <td th:text="${user.active} ? 'Да' : 'Нет'"></td>
+                    <td th:text="${#strings.listJoin(user.roles, ', ')}"></td>
+                    <td>
+                        <a th:href="@{/user/{id}(id=${user.id})}">Редактировать</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <a th:href="@{/main}">Вернуться на главную</a>
+    </body>
+    <div th:insert="~{commonParts::footer}"></div>
+</html>

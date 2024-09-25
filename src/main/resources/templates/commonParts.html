@@ -16,3 +16,10 @@
         <input type="submit" value="Выйти"/>
     </form>
 </div>
+
+<div th:fragment="optionForSelectCategory">
+    <option value="" disabled selected>-- Выберите категорию --</option>
+    <option th:each="category : ${T(ru.kovalenkojuls.cookhub.domains.enums.RecipeCategory).values()}"
+            th:value="${category.name()}"
+            th:text="${category.displayName}"></option>
+</div>

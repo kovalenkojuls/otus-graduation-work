@@ -6,9 +6,12 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import ru.kovalenkojuls.cookhub.domains.User;
-import ru.kovalenkojuls.cookhub.domains.UserRole;
+import ru.kovalenkojuls.cookhub.domains.enums.UserRole;
 import ru.kovalenkojuls.cookhub.repositories.UserRepository;
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
+import java.util.Map;
 
 @Service
 @AllArgsConstructor
@@ -23,7 +26,6 @@ public class UserService {
         newUser.setPassword(passwordEncoder.encode(password));
         newUser.setRoles(Collections.singleton(UserRole.USER));
         newUser.setActive(true);
-
         return userRepository.save(newUser);
     }
 
@@ -39,5 +41,20 @@ public class UserService {
 
     public User findByUsername(String username) {
         return userRepository.findByUsername(username);
+    }
+
+    public List<User> findAll() {
+        return userRepository.findAll();
+    }
+
+    public User updateUser(User user, String username, Map<String, String> form) {
+        user.setUsername(username);
+        user.getRoles().clear();
+        user.getRoles().addAll(
+                Arrays.stream(UserRole.values())
+                        .filter(role -> form.containsKey(role.name()))
+                        .toList()
+        );
+        return userRepository.save(user);
     }
 }

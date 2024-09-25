@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <div th:insert="~{commonParts::header}"></div>
+    <body>
+        <h1>Редактирование пользователя: </h1>
+        <form th:action="@{/user}" method="post">
+            <table>
+                <tbody>
+                    <input type="text" id="id" name="id" th:value="${user.id}" hidden required />
+                    <tr>
+                        <td><label for="username">Имя пользователя:</label></td>
+                        <td><input type="text" id="username" name="username" th:value="${user.username}" required /></td>
+                    </tr>
+                    <tr>
+                        <td><label for="active">Активен:</label></td>
+                        <td><input type="checkbox" id="active" name="active" th:checked="${user.active}" /></td>
+                    </tr>
+                    <tr>
+                        <td><label>Роли:</label></td>
+                        <td>
+                            <div th:each="role : ${T(ru.kovalenkojuls.cookhub.domains.enums.UserRole).values()}">
+                                <input type="checkbox" th:name="${role}" th:value="1"
+                                       th:checked="${user.roles.contains(role)}" />
+                                <span th:text="${role}"></span>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <button type="submit">Сохранить изменения</button>
+        </form>
+        <a th:href="@{/main}">Вернуться на главную</a>
+    </body>
+    <div th:insert="~{commonParts::footer}"></div>
+</html>

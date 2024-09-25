@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-    <div th:include="parts::header"></div>
+    <div th:insert="~{commonParts::header}"></div>
     <body>
-        <div th:include="parts::logout"></div>
+        <div th:insert="~{commonParts::logout}"></div>
+        <a th:href="@{/user}">Список пользователей</a>
         <h1>Добавить новый рецепт:</h1>
         <form th:action="@{/main}" method="post">
             <div>
@@ -10,12 +11,9 @@
                 <input type="text" id="text" name="text" required>
             </div>
             <div>
-                <label for="category">Выберите категорию:</label>
-                <select id="category" name="category" required>
-                    <option value="" disabled selected>-- Выберите категорию --</option>
-                    <option th:each="category : ${T(ru.kovalenkojuls.cookhub.domains.RecipeCategory).values()}"
-                            th:value="${category.name()}"
-                            th:text="${category.displayName}"></option>
+                <label for="recipe-category">Выберите категорию:</label>
+                <select id="recipe-category" name="category" required>
+                    <div th:insert="~{commonParts::optionForSelectCategory}"></div>
                 </select>
             </div>
             <div>
@@ -25,12 +23,9 @@
 
         <h1>Список рецептов:</h1>
         <form th:action="@{/main}" method="get">
-            <label for="category">Выберите категорию:</label>
-            <select id="category-filter" name="filter">
-                <option value="" disabled selected>-- Выберите категорию --</option>
-                <option th:each="category : ${T(ru.kovalenkojuls.cookhub.domains.RecipeCategory).values()}"
-                        th:value="${category.name()}"
-                        th:text="${category.displayName}"></option>
+            <label for="category-filter">Выберите категорию:</label>
+            <select id="category-filter" name="category">
+                <div th:insert="~{commonParts::optionForSelectCategory}"></div>
             </select>
             <button type="submit">Найти</button>
         </form>
@@ -56,5 +51,5 @@
             </tbody>
         </table>
     </body>
-    <div th:include="parts::footer"></div>
+    <div th:insert="~{commonParts::footer}"></div>
 </html>

@@ -3,6 +3,7 @@ package ru.kovalenkojuls.cookhub.domains;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import ru.kovalenkojuls.cookhub.domains.enums.UserRole;
 
 import java.util.Set;
 
@@ -25,6 +26,7 @@ public class User {
     @Column(name = "active")
     private boolean active;
 
+    @Column(name = "role")
     @ElementCollection(targetClass = UserRole.class, fetch = FetchType.EAGER)
     @CollectionTable(name = "cookhub_user_role", joinColumns = @JoinColumn(name = "cookhub_user_id"))
     @Enumerated(EnumType.STRING)

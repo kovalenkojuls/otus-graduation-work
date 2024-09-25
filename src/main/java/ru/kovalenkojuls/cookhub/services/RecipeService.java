@@ -3,7 +3,7 @@ package ru.kovalenkojuls.cookhub.services;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.kovalenkojuls.cookhub.domains.Recipe;
-import ru.kovalenkojuls.cookhub.domains.RecipeCategory;
+import ru.kovalenkojuls.cookhub.domains.enums.RecipeCategory;
 import ru.kovalenkojuls.cookhub.repositories.RecipeRepository;
 
 @Service

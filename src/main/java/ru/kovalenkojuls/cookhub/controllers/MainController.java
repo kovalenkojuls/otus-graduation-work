@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.view.RedirectView;
 import ru.kovalenkojuls.cookhub.domains.Recipe;
-import ru.kovalenkojuls.cookhub.domains.RecipeCategory;
+import ru.kovalenkojuls.cookhub.domains.enums.RecipeCategory;
 import ru.kovalenkojuls.cookhub.services.RecipeService;
 import ru.kovalenkojuls.cookhub.services.UserService;
 
