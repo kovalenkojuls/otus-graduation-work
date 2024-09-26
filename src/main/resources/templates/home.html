@@ -1,9 +1,12 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+<html lang="ru" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
     <div th:insert="~{commonParts::header}"></div>
     <body>
-        <h1>Добро пожаловать в CookHub!</h1>
-        <a th:href="@{/main}">Перейти к рецептам</a>
+        <div class="container welcome-container my-5 text-center">
+            <h1 class="display-4">Добро пожаловать в CookHub!</h1>
+            <a th:href="@{/main}" class="btn btn-primary btn-lg mt-4">Перейти к рецептам</a>
+        </div>
+
+        <div th:insert="~{commonParts::footer}"></div>
     </body>
-    <div th:insert="~{commonParts::footer}"></div>
 </html>

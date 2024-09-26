@@ -1,19 +1,31 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+<html lang="ru" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
     <div th:insert="~{commonParts::header}"></div>
-    <body>
-        <h1>Вход в приложение</h1>
-        <div style="color: red" th:if="${param.error}">
-            Вы ввели неверное имя пользователя или пароль.
+
+    <body class="d-flex align-items-center justify-content-center">
+        <div class="login-container col-md-3">
+            <h1 class="text-center">Вход в приложение</h1>
+
+            <div class="error-message" style="color: red" th:if="${param.error}">
+                Вы ввели неверное имя пользователя или пароль.
+            </div>
+
+            <form th:action="@{/login}" method="post" class="mt-4">
+                <div class="mb-3">
+                    <label for="username" class="form-label">Имя</label>
+                    <input type="text" id="username" name="username" class="form-control" placeholder="Имя" required />
+                </div>
+                <div class="mb-3">
+                    <label for="password" class="form-label">Пароль</label>
+                    <input type="password" id="password" name="password" class="form-control" placeholder="Пароль" required />
+                </div>
+                <button type="submit" class="btn btn-primary w-100">Войти</button>
+                <div class="text-center mt-3">
+                    <a th:href="@{/register}" class="btn btn-outline-secondary w-100">Регистрация нового пользователя</a>
+                </div>
+            </form>
         </div>
-        <form th:action="@{/login}" method="post">
-            <table>
-                <tr><td><input type="text" name="username" placeholder="Имя" required/></td></tr>
-                <tr><td><input type="password" name="password" placeholder="Пароль" required/></td></tr>
-                <tr><td><input type="submit" value="Войти"/></td></tr>
-            </table>
-        </form>
-        <a th:href="@{/register}">Регистрация нового пользователя</a>
+
+        <div th:insert="~{commonParts::footer}"></div>
     </body>
-    <div th:insert="~{commonParts::footer}"></div>
 </html>

@@ -17,7 +17,7 @@ public class Recipe {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "text")
+    @Column(name = "text", columnDefinition = "TEXT")
     private String text;
 
     @Column(name = "category")

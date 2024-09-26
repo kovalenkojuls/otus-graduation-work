@@ -1,70 +1,91 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
     <div th:insert="~{commonParts::header}"></div>
-    <body>
+    <body class="container">
         <div th:insert="~{commonParts::logout}"></div>
-        <a th:href="@{/user}">Список пользователей</a>
-        <h1>Добавить новый рецепт:</h1>
-        <form th:action="@{/main}" method="post" enctype="multipart/form-data">
-            <table>
-                <tr>
-                    <td><label for="text">Введите текст рецепта:</label></td>
-                    <td><input type="text" id="text" name="text" required></td>
-                </tr>
-                <tr>
-                    <td><label for="recipe-category">Выберите категорию:</label></td>
-                    <td>
-                        <select id="recipe-category" name="category" required>
+
+        <div class="add-new-recipe-container col-md-8 mx-auto">
+            <h1 class="text-center mb-4">Добавить новый рецепт:</h1>
+            <form th:action="@{/main}" method="post" enctype="multipart/form-data">
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label for="recipe-category" class="form-label">Категория:</label>
+                        <select id="recipe-category" name="category" class="form-select" required>
                             <div th:insert="~{commonParts::optionForSelectCategory}"></div>
                         </select>
-                    </td>
-                </tr>
-                <tr>
-                    <td><label for="file">Фото блюда:</label></td>
-                    <td><input id="file" type="file" name="file"></td>
-                </tr>
-                <tr>
-                    <td><button type="submit">Добавить рецепт</button></td>
-                </tr>
-            </table>
-        </form>
+                    </div>
 
-        <h1>Список рецептов:</h1>
-        <form th:action="@{/main}" method="get">
-            <label for="category-filter">Выберите категорию:</label>
-            <select id="category-filter" name="category">
-                <div th:insert="~{commonParts::optionForSelectCategory}"></div>
-            </select>
-            <button type="submit">Найти</button>
-        </form>
-        <table border="1" style="border-collapse: collapse">
-            <thead th:if="${!#lists.isEmpty(recipes)}">
-                <tr>
-                    <th>ID</th>
-                    <th>Рецепт</th>
-                    <th>Категория</th>
-                    <th>Автор</th>
-                    <th>Фото</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr th:if="${#lists.isEmpty(recipes)}">
-                    <td colspan="3" style="text-align: center;">Список пуст</td>
-                </tr>
-                <tr th:each="recipe : ${recipes}" th:unless="${#lists.isEmpty(recipes)}">
-                    <td th:text="${recipe.id}"></td>
-                    <td th:text="${recipe.text}"></td>
-                    <td th:text="${recipe.category.displayName}"></td>
-                    <td th:text="${recipe.author.username}"></td>
-                    <td>
-                        <span th:if="${recipe.filename}"> <!-- Проверка, есть ли filename -->
-                        <img th:src="@{/images/{filename}(filename=${recipe.filename})}"
-                                 alt="Recipe Image" style="max-height: 100px; max-width: 100px;" />
-                        </span>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+                    <div class="col-md-6">
+                        <label for="file" class="form-label">Фото:</label>
+                        <input id="file" type="file" name="file" class="form-control">
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-md-12">
+                        <label for="text" class="form-label">Текст рецепта:</label>
+                        <textarea id="text" name="text" class="form-control" rows="10" required></textarea>
+                        <small class="form-text text-muted">Пожалуйста, введите подробный текст рецепта.</small>
+                    </div>
+                </div>
+
+                <div class="d-flex justify-content-end">
+                    <button type="submit" class="btn btn-primary">Добавить рецепт</button>
+                </div>
+            </form>
+        </div>
+
+
+        <div class="recipes-list-container">
+            <h1 class="text-center mb-4">Список рецептов:</h1>
+            <form th:action="@{/main}" method="get" class="mb-4">
+                <div class="row justify-content-start">
+                    <div class="col-md-4 d-flex align-items-center">
+                        <div class="me-2 flex-grow-1">
+                            <label for="category-filter" class="form-label mb-0">Выберите категорию:</label>
+                            <select id="category-filter" name="category" class="form-select">
+                                <div th:insert="~{commonParts::optionForSelectCategory}"></div>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary mt-4">Найти</button>
+                    </div>
+                </div>
+            </form>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div th:if="${#lists.isEmpty(recipes)}" class="alert alert-warning text-center" role="alert">
+                        Список пуст
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div th:if="${#lists.isEmpty(recipes)}" class="alert alert-warning text-center" role="alert">
+                                Список пуст
+                            </div>
+
+                            <div class="row">
+                                <div th:each="recipe : ${recipes}" class="col-md-4 mb-4"> <!-- Изменено на col-md-4 -->
+                                    <div class="card shadow-sm">
+                                        <div>
+                                            <div th:if="${recipe.filename}">
+                                                <img th:src="@{/images/{filename}(filename=${recipe.filename})}"
+                                                     alt="Recipe Image" class="card-img-top" style="height: 200px; width: 100%; object-fit: contain;" />
+                                            </div>
+                                        </div>
+                                        <div class="card-body">
+                                            <h5 class="card-title" th:text="${recipe.text}"></h5>
+                                            <p class="card-subtitle mb-2 text-muted">Автор: <span th:text="${recipe.author.username}"></span></p>
+                                            <p class="card-subtitle mb-2 text-muted">Категория: <span th:text="${recipe.category.displayName}"></span></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </body>
     <div th:insert="~{commonParts::footer}"></div>
 </html>
