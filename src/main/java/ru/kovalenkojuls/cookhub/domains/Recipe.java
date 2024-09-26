@@ -13,7 +13,7 @@ import ru.kovalenkojuls.cookhub.domains.enums.RecipeCategory;
 @Table(name = "recipe")
 public class Recipe {
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
 
@@ -27,6 +27,9 @@ public class Recipe {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
     private User author;
+
+    @Column(name = "filename")
+    private String filename;
 
     public Recipe(String text, RecipeCategory category, User author) {
         this.text = text;

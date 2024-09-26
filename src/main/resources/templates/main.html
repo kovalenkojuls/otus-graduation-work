@@ -5,20 +5,28 @@
         <div th:insert="~{commonParts::logout}"></div>
         <a th:href="@{/user}">Список пользователей</a>
         <h1>Добавить новый рецепт:</h1>
-        <form th:action="@{/main}" method="post">
-            <div>
-                <label for="text">Введите текст рецепта:</label>
-                <input type="text" id="text" name="text" required>
-            </div>
-            <div>
-                <label for="recipe-category">Выберите категорию:</label>
-                <select id="recipe-category" name="category" required>
-                    <div th:insert="~{commonParts::optionForSelectCategory}"></div>
-                </select>
-            </div>
-            <div>
-                <button type="submit">Добавить рецепт</button>
-            </div>
+        <form th:action="@{/main}" method="post" enctype="multipart/form-data">
+            <table>
+                <tr>
+                    <td><label for="text">Введите текст рецепта:</label></td>
+                    <td><input type="text" id="text" name="text" required></td>
+                </tr>
+                <tr>
+                    <td><label for="recipe-category">Выберите категорию:</label></td>
+                    <td>
+                        <select id="recipe-category" name="category" required>
+                            <div th:insert="~{commonParts::optionForSelectCategory}"></div>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td><label for="file">Фото блюда:</label></td>
+                    <td><input id="file" type="file" name="file"></td>
+                </tr>
+                <tr>
+                    <td><button type="submit">Добавить рецепт</button></td>
+                </tr>
+            </table>
         </form>
 
         <h1>Список рецептов:</h1>
@@ -29,13 +37,14 @@
             </select>
             <button type="submit">Найти</button>
         </form>
-        <table>
+        <table border="1" style="border-collapse: collapse">
             <thead th:if="${!#lists.isEmpty(recipes)}">
                 <tr>
                     <th>ID</th>
                     <th>Рецепт</th>
                     <th>Категория</th>
                     <th>Автор</th>
+                    <th>Фото</th>
                 </tr>
             </thead>
             <tbody>
@@ -47,6 +56,12 @@
                     <td th:text="${recipe.text}"></td>
                     <td th:text="${recipe.category.displayName}"></td>
                     <td th:text="${recipe.author.username}"></td>
+                    <td>
+                        <span th:if="${recipe.filename}"> <!-- Проверка, есть ли filename -->
+                        <img th:src="@{/images/{filename}(filename=${recipe.filename})}"
+                                 alt="Recipe Image" style="max-height: 100px; max-width: 100px;" />
+                        </span>
+                    </td>
                 </tr>
             </tbody>
         </table>

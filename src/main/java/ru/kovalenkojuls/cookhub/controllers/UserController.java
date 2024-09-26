@@ -34,6 +34,7 @@ public class UserController {
             @RequestParam("id") User user,
             @RequestParam Map<String, String> form,
             @RequestParam String username) {
+
         userService.updateUser(user, username, form);
         return new RedirectView("/user", true);
     }
