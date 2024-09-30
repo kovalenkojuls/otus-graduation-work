@@ -26,6 +26,12 @@ public class User {
     @Column(name = "active")
     private boolean active;
 
+    @Column(name = "email")
+    private String email;
+
+    @Column(name = "activationCode")
+    private String activationCode;
+
     @Column(name = "role")
     @ElementCollection(targetClass = UserRole.class, fetch = FetchType.EAGER)
     @CollectionTable(name = "cookhub_user_role", joinColumns = @JoinColumn(name = "cookhub_user_id"))

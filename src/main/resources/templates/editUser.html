@@ -19,6 +19,11 @@
                     <label class="form-check-label" for="active">Активен</label>
                 </div>
 
+                <div class="mb-3">
+                    <input type="email" id="email" name="email" class="form-control" th:value="${user.email}" required />
+                    <label for="email" class="form-label">E-mail</label>
+                </div>
+
                 <div class="mb-4">
                     <label class="form-label">Роли:</label>
                     <div class="p-3 border rounded bg-light">
