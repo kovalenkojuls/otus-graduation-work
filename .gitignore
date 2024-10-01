@@ -27,3 +27,5 @@ out
 *.iws
 *.ipr
 *.idea
+
+/cookhub/uploadimages/*.jpg

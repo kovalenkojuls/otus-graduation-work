@@ -11,17 +11,89 @@ services:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: [ "CMD", "pg_isready", "-U", "usr" ]
+      interval: 30s
+      timeout: 10s
+      retries: 5
 
   pgadmin:
     image: dpage/pgadmin4
     container_name: pgadmin-container
     depends_on:
-      - postgres
+      postgres:
+        condition: service_healthy
     ports:
       - "8081:80"
     environment:
       PGADMIN_DEFAULT_EMAIL: "usr@domain.ru"
       PGADMIN_DEFAULT_PASSWORD: "pwd"
+
+  zookeeper:
+    image: confluentinc/cp-zookeeper:6.2.4
+    container_name: zookeeper-container
+    ports:
+      - "2181:2181"
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+    healthcheck:
+      test: [ "CMD", "nc", "-z", "localhost", "2181" ]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+  kafka:
+    image: confluentinc/cp-kafka:6.2.4
+    container_name: kafka-container
+    ports:
+      - "9092:9092"
+    depends_on:
+      zookeeper:
+        condition: service_healthy
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: "zookeeper-container:2181"
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_INTERNAL:PLAINTEXT
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092,PLAINTEXT_INTERNAL://kafka-container:29092
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
+      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+    healthcheck:
+      test: [ "CMD", "nc", "-vz", "localhost", "9092" ]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+  kafka-ui:
+    image: provectuslabs/kafka-ui:latest
+    container_name: kafka-ui-container
+    depends_on:
+      kafka:
+        condition: service_healthy
+    ports:
+      - "8082:8080"
+    environment:
+      DYNAMIC_CONFIG_ENABLED: true
+      KAFKA_CLUSTERS_0_NAME: "CookHub Cluster"
+      KAFKA_CLUSTERS_0_BOOTSTRAP_SERVERS: "kafka-container:29092"
+
+  kafka-topics-generator:
+    image: confluentinc/cp-kafka:6.2.4
+    container_name: kafka-topics-generator-container
+    depends_on:
+      kafka:
+        condition: service_healthy
+    entrypoint: [ '/bin/sh', '-c' ]
+    command: |
+      "
+      kafka-topics --bootstrap-server kafka-container:29092 --list
+      echo -e 'Creating kafka topics:'
+      kafka-topics --bootstrap-server kafka-container:29092 --create --if-not-exists --topic send-mail-event --replication-factor 1 --partitions 2
+      echo -e 'Successfully created the following topics:'
+      kafka-topics --bootstrap-server kafka-container:29092 --list
+      echo -e 'Bay'
+      "
 
 volumes:
   postgres_data:
