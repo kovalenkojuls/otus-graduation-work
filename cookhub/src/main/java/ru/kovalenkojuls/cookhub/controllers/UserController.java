@@ -15,6 +15,7 @@ import java.util.Map;
 @PreAuthorize("hasAuthority('ADMIN')")
 @AllArgsConstructor
 public class UserController {
+
     private final UserService userService;
 
     @GetMapping

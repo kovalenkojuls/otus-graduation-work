@@ -23,6 +23,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation("org.springframework.boot:spring-boot-starter-security")
+    implementation("org.springframework.boot:spring-boot-starter-validation")
     implementation("org.springframework.boot:spring-boot-devtools")
 
     // Thymeleaf Extras
@@ -37,6 +38,9 @@ dependencies {
 
     // PostgreSQL
     runtimeOnly("org.postgresql:postgresql")
+
+    // Flywaydb
+    implementation ("org.flywaydb:flyway-core:9.16.0")
 
     // Jackson
     implementation("com.fasterxml.jackson.core:jackson-databind")

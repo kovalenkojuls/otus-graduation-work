@@ -1,6 +1,8 @@
 package ru.kovalenkojuls.cookhub.domains;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.Setter;
 import ru.kovalenkojuls.cookhub.domains.enums.UserRole;
@@ -18,15 +20,23 @@ public class User {
     private Long id;
 
     @Column(name = "username")
+    @NotBlank(message = "Имя пользователя не может быть пустым")
     private String username;
 
     @Column(name = "password")
+    @NotBlank(message = "Пароль не может быть пустым")
     private String password;
+
+    @Transient
+    @NotBlank(message = "Подтвердите пароль")
+    private String passwordRepeat;
 
     @Column(name = "active")
     private boolean active;
 
     @Column(name = "email")
+    @NotBlank(message = "Email не может быть пустым")
+    @Email(message = "Некоррекный формат")
     private String email;
 
     @Column(name = "activationCode")

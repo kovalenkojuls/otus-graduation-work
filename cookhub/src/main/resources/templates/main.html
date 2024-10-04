@@ -10,7 +10,7 @@
                 <div class="row mb-3">
                     <div class="col-md-6">
                         <label for="recipe-category" class="form-label">Категория:</label>
-                        <select id="recipe-category" name="category" class="form-select" required>
+                        <select id="recipe-category" name="category" class="form-select">
                             <div th:insert="~{commonParts::optionForSelectCategory}"></div>
                         </select>
                     </div>
@@ -24,8 +24,12 @@
                 <div class="row mb-3">
                     <div class="col-md-12">
                         <label for="text" class="form-label">Текст рецепта:</label>
-                        <textarea id="text" name="text" class="form-control" rows="10" required></textarea>
+                        <textarea id="text" name="text" class="form-control"
+                                  th:classappend="${errors != null && errors['textError'] != null} ? 'is-invalid' : ''" rows="10"></textarea>
                         <small class="form-text text-muted">Пожалуйста, введите подробный текст рецепта.</small>
+                        <div th:if="${errors != null && errors['textError'] != null}" class="invalid-feedback">
+                            <span th:text="${errors['textError']}"></span>
+                        </div>
                     </div>
                 </div>
 

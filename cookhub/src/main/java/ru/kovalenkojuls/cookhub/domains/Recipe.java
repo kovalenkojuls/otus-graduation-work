@@ -1,6 +1,7 @@
 package ru.kovalenkojuls.cookhub.domains;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -18,6 +19,7 @@ public class Recipe {
     private Long id;
 
     @Column(name = "text", columnDefinition = "TEXT")
+    @NotBlank(message = "Пожалуйста, заполните поле")
     private String text;
 
     @Column(name = "category")
