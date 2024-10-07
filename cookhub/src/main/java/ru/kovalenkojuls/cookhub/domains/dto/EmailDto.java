@@ -9,7 +9,7 @@ import java.util.Map;
 @AllArgsConstructor
 @Getter
 @Setter
-public class EmailDTO {
+public class EmailDto {
     private String emailTo;
     private String subject;
     private String templateName;

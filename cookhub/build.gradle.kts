@@ -49,6 +49,9 @@ dependencies {
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.springframework.security:spring-security-test")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+
+    // Spring Session
+    implementation("org.springframework.session:spring-session-jdbc")
 }
 
 tasks.withType<Test> {

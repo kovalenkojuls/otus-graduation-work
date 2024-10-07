@@ -14,6 +14,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import ru.kovalenkojuls.cookhub.services.CustomUserDetailsService;
+import java.util.UUID;
 
 @Configuration
 @EnableWebSecurity
@@ -36,6 +37,7 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        String rememberMeSecret = UUID.randomUUID().toString();
         http
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/", "/register", "/static/**", "/activate/*").permitAll()
@@ -46,7 +48,13 @@ public class SecurityConfig {
                         .defaultSuccessUrl("/main")
                         .permitAll()
                 )
-                .logout(LogoutConfigurer::permitAll);
+                .logout(LogoutConfigurer::permitAll)
+                .rememberMe(rememberMe -> rememberMe
+                        .key(rememberMeSecret)
+                        .tokenValiditySeconds(86400)
+                        .userDetailsService(userDetailsService())
+                        .rememberMeParameter("remember-me")
+                );
         return http.build();
     }
 

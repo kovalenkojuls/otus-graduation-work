@@ -27,10 +27,6 @@ public class User {
     @NotBlank(message = "Пароль не может быть пустым")
     private String password;
 
-    @Transient
-    @NotBlank(message = "Подтвердите пароль")
-    private String passwordRepeat;
-
     @Column(name = "active")
     private boolean active;
 
