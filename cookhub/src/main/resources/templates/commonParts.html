@@ -21,10 +21,11 @@
     <a th:href="@{/main}" class="btn btn-outline-secondary w-100">Вернуться на главную</a>
 </div>
 
-
+ selected
 <div th:fragment="optionForSelectCategory">
-    <option value="" disabled selected>-- Выберите категорию --</option>
-    <option th:each="category : ${T(ru.kovalenkojuls.cookhub.domains.enums.RecipeCategory).values()}"
-            th:value="${category.name()}"
-            th:text="${category.displayName}"></option>
+    <option value="" disabled th:selected="${category == null}">-- Выберите категорию --</option>
+    <option th:each="currCategory : ${T(ru.kovalenkojuls.cookhub.domains.enums.RecipeCategory).values()}"
+            th:value="${currCategory.name()}"
+            th:text="${currCategory.displayName}"
+            th:selected="${currCategory.displayName == category}"></option>
 </div>

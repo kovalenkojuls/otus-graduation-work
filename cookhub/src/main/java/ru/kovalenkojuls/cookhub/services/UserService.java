@@ -35,9 +35,9 @@ public class UserService {
         return userRepository.findByUsername(username);
     }
 
-    public void registerUser(String username, String password, String email) {
-        User newUser = createUser(username, password, email);
-        User savedUser = userRepository.save(newUser);
+    public void registerUser(User newUser) {
+        User newUserUpdated = setFieldsForNewUser(newUser);
+        User savedUser = userRepository.save(newUserUpdated);
         log.info("Пользователь с id={} зарегистрирован", savedUser.getId());
 
         if (!savedUser.getEmail().isEmpty()) {
@@ -97,14 +97,11 @@ public class UserService {
         return null;
     }
 
-    private User createUser(String username, String password, String email) {
-        User user = new User();
-        user.setUsername(username);
-        user.setPassword(passwordEncoder.encode(password));
-        user.setEmail(email);
-        user.setActivationCode(UUID.randomUUID().toString());
-        user.setRoles(Collections.singleton(UserRole.USER));
-        user.setActive(true);
-        return user;
+    private User setFieldsForNewUser(User newUser) {
+        newUser.setPassword(passwordEncoder.encode(newUser.getPassword()));
+        newUser.setActivationCode(UUID.randomUUID().toString());
+        newUser.setRoles(Collections.singleton(UserRole.USER));
+        newUser.setActive(true);
+        return newUser;
     }
 }

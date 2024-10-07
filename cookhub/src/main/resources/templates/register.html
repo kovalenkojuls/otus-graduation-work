@@ -10,15 +10,27 @@
             <form th:action="@{/register}" method="post" class="mt-4">
                 <div class="mb-3">
                     <label for="username" class="form-label">Имя</label>
-                    <input type="text" id="username" name="username" class="form-control" placeholder="Имя" required />
+                    <input type="text" id="username" name="username" class="form-control" placeholder="Имя"
+                           th:value="${user != null ? user.username : ''}"
+                           th:classappend="${usernameError != null} ? 'is-invalid' : ''"/>
+                    <div th:if="${usernameError != null}" class="invalid-feedback"><span th:text="${usernameError}"></span></div>
                 </div>
                 <div class="mb-3">
                     <label for="email" class="form-label">E-mail</label>
-                    <input type="email" id="email" name="email" class="form-control" placeholder="user@domain.ru" required />
+                    <input id="email" name="email" class="form-control" placeholder="user@domain.ru"
+                           th:value="${user != null ? user.email : ''}"
+                           th:classappend="${emailError != null} ? 'is-invalid' : ''"/>
+                    <div th:if="${emailError != null}" class="invalid-feedback"><span th:text="${emailError}"></span></div>
                 </div>
                 <div class="mb-3">
                     <label for="password" class="form-label">Пароль</label>
-                    <input type="password" id="password" name="password" class="form-control" placeholder="Пароль" required />
+                    <input type="password" id="password" name="password" class="form-control" placeholder="Пароль"
+                           th:classappend="${passwordError != null} ? 'is-invalid' : ''"/>
+                    <div th:if="${passwordError != null}" class="invalid-feedback"><span th:text="${passwordError}"></span></div>
+                </div>
+                <div class="mb-3">
+                    <label for="password" class="form-label">Пароль</label>
+                    <input type="password" id="passwordRepeat" name="passwordRepeat" class="form-control" placeholder="Повторите пароль"/>
                 </div>
                 <button type="submit" class="btn btn-primary w-100">Зарегистрироваться</button>
             </form>

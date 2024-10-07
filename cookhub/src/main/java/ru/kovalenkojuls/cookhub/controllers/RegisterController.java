@@ -1,20 +1,25 @@
 package ru.kovalenkojuls.cookhub.controllers;
 
 import lombok.AllArgsConstructor;
+import org.apache.kafka.common.network.Mode;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.Validator;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import org.springframework.web.servlet.view.RedirectView;
+import ru.kovalenkojuls.cookhub.domains.User;
 import ru.kovalenkojuls.cookhub.services.UserService;
+
+import java.util.Map;
 
 @Controller
 @AllArgsConstructor
 public class RegisterController {
+
     private final UserService userService;
+    private final Validator validator;
 
     @GetMapping("/register")
     public String register() {
@@ -22,20 +27,24 @@ public class RegisterController {
     }
 
     @PostMapping("/register")
-    public RedirectView registerUser(
-            @RequestParam String username,
-            @RequestParam String password,
-            @RequestParam String email,
-            RedirectAttributes redirectAttributes) {
+    public String registerUser(
+            User newUser,
+            BindingResult bindingResult,
+            Model model) {
 
-        if (userService.findByUsername(username) != null) {
-            redirectAttributes.addFlashAttribute("errorMessage", "Пользователь с таким именем уже зарегистрирован.");
-            return new RedirectView("/register", true);
+        if (
+                errorPasswordRepeatNotEqualsPassword(newUser, model) ||
+                errorValidEntityFields(newUser, bindingResult, model) ||
+                errorUserAlreadyExist(newUser, model)
+        ) {
+            model.addAttribute("user", newUser);
+            return "/register";
         }
-        userService.registerUser(username, password, email);
-        redirectAttributes.addFlashAttribute("successMessage", "Пользователь успешно зарегистрирован. Подтвердите почту.");
 
-        return new RedirectView("/login", true);
+        userService.registerUser(newUser);
+        model.addAttribute("successMessage", "Пользователь успешно зарегистрирован. Подтвердите почту.");
+
+        return "/login";
     }
 
     @GetMapping("/activate/{activationCode}")
@@ -47,5 +56,30 @@ public class RegisterController {
             model.addAttribute("errorMessage", "Ошибка подтверждения почты.");
         }
         return "login";
+    }
+
+    private boolean errorPasswordRepeatNotEqualsPassword(User newUser, Model model) {
+        if (newUser.getPassword() != null && !newUser.getPassword().equals(newUser.getPasswordRepeat())) {
+            model.addAttribute("passwordError", "Пароли не спадают.");
+            return true;
+        }
+        return false;
+    }
+
+    private boolean errorValidEntityFields(User newUser, BindingResult bindingResult, Model model) {
+        validator.validate(newUser, bindingResult);
+        if (bindingResult.hasErrors()) {
+            model.mergeAttributes(ControllerUtils.getMapErrors(bindingResult));
+            return true;
+        }
+        return false;
+    }
+
+    private boolean errorUserAlreadyExist(User newUser, Model model) {
+        if (userService.findByUsername(newUser.getUsername()) != null) {
+            model.addAttribute("usernameError", "Пользователь с таким именем уже зарегистрирован.");
+            return true;
+        }
+        return false;
     }
 }

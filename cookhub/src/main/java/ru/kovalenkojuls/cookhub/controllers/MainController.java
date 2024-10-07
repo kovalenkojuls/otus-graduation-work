@@ -16,7 +16,6 @@ import ru.kovalenkojuls.cookhub.domains.enums.RecipeCategory;
 import ru.kovalenkojuls.cookhub.services.RecipeService;
 import ru.kovalenkojuls.cookhub.services.UserService;
 import java.io.IOException;
-import java.util.Map;
 
 @Controller
 @AllArgsConstructor
@@ -54,10 +53,11 @@ public class MainController {
         recipe.setAuthor(userService.findByUsername(userDetails.getUsername()));
 
         validator.validate(recipe, bindingResult);
-
         if (bindingResult.hasErrors()) {
-            Map<String, String> errors = ControllerUtils.getMapErrors(bindingResult);
-            model.addAttribute("errors", errors);
+            model.mergeAttributes(ControllerUtils.getMapErrors(bindingResult));
+            if (recipe.getCategory() != null) {
+                model.addAttribute("category", recipe.getCategory().getDisplayName());
+            }
         } else {
             recipeService.save(recipe, file);
         }
