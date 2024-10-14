@@ -31,6 +31,10 @@ public class UserService {
         return userRepository.findAll();
     }
 
+    public Optional<User> findById(Long id) {
+        return userRepository.findById(id);
+    }
+
     public User findByUsername(String username) {
         return userRepository.findByUsername(username);
     }
@@ -68,6 +72,10 @@ public class UserService {
         user.setActivationCode(null);
         userRepository.save(user);
         return true;
+    }
+
+    public User getAuthorizedUser(UserDetails userDetails) {
+        return findByUsername(userDetails.getUsername());
     }
 
     private void sendEmailEventToKafka(User newUser) {

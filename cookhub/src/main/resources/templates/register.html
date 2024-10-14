@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-    <div th:insert="~{commonParts::header}"></div>
+    <th:block th:insert="~{commonParts/header::header}"></th:block>
 
     <body class="d-flex align-items-center justify-content-center">
         <div class="register-container col-md-3">
@@ -24,7 +24,9 @@
                 </div>
                 <div class="mb-3">
                     <label for="password" class="form-label">Пароль</label>
-                    <input type="password" id="password" name="password" class="form-control" placeholder="Пароль" />
+                    <input type="password" id="password" name="password" class="form-control" placeholder="Пароль"
+                           th:classappend="${passwordError != null} ? 'is-invalid' : ''"/>
+                    <div th:if="${passwordError != null}" class="invalid-feedback"><span th:text="${passwordError}"></span></div>
                 </div>
                 <div class="mb-3">
                     <label for="passwordRepeat" class="form-label">Пароль</label>
@@ -39,9 +41,9 @@
                 <button type="submit" class="btn btn-primary w-100">Зарегистрироваться</button>
             </form>
 
-            <div th:insert="~{commonParts::backToMain}"></div>
+            <div th:insert="~{commonParts/commonParts::backToMain}"></div>
         </div>
-    </body>
 
-    <div th:insert="~{commonParts::footer}"></div>
+        <th:block th:insert="~{commonParts/footer::footer}"></th:block>
+    </body>
 </html>

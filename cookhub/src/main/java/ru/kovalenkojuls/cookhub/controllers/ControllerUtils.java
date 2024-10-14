@@ -11,10 +11,12 @@ public class ControllerUtils {
                 .getFieldErrors()
                 .stream()
                 .collect(
-                        Collectors.toMap(
+                        Collectors.groupingBy(
                                 fieldError -> fieldError.getField() + "Error",
-                                fieldError -> fieldError.getDefaultMessage() != null ?
-                                        fieldError.getDefaultMessage() : "Неизвестная ошибка"
+                                Collectors.mapping(
+                                        fieldError -> fieldError.getDefaultMessage() != null ? fieldError.getDefaultMessage() : "Неизвестная ошибка",
+                                        Collectors.joining("; ")
+                                )
                         )
                 );
     }

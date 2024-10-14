@@ -1,0 +1,42 @@
+<div th:fragment="recipesList" class="recipes-list-container">
+    <div class="row">
+        <div class="col-md-12">
+            <div th:if="${#lists.isEmpty(recipes)}" class="alert alert-warning text-center" role="alert">
+                Список пуст
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="row">
+                        <div th:each="recipe : ${recipes}" class="col-md-4 mb-4">
+                            <div class="card shadow-sm">
+                                <div>
+                                    <div th:if="${recipe.filename}">
+                                        <img th:src="@{/images/{filename}(filename=${recipe.filename})}"
+                                             alt="Recipe Image" class="card-img-top" style="height: 200px; width: 100%; object-fit: contain;" />
+                                    </div>
+                                    <div th:unless="${recipe.filename}">
+                                        <img th:src="@{/images/no_photo.jpg}" alt="Recipe Image" class="card-img-top" style="height: 200px; width: 100%; object-fit: contain;" />
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <h5 class="card-title" th:text="${recipe.text}"></h5>
+                                    <p class="card-subtitle mb-2 text-muted">
+                                        Автор: <a th:href="@{/user-recipes/{userId}(userId=${recipe.author.id})}"
+                                                  th:text="${recipe.author.username}"></a>
+                                    </p>
+                                    <p class="card-subtitle mb-2 text-muted">Категория: <span th:text="${recipe.category.displayName}"></span></p>
+                                    <p class="card-subtitle mb-2 text-muted">
+                                        <a th:if="${currentUserId == recipe.author.id}"
+                                           th:href="@{/edit-recipe/{recipeId}(recipeId=${recipe.id})}"
+                                           class="btn btn-outline-primary">Редактировать</a>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

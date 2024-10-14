@@ -35,7 +35,10 @@ public class MainController {
     }
 
     @GetMapping("/main")
-    public String main(@RequestParam(required = false) RecipeCategory category, Model model) {
+    public String main(
+            @AuthenticationPrincipal UserDetails userDetails,
+            @RequestParam(required = false) RecipeCategory category, Model model
+    ) {
         Iterable<Recipe> recipes = recipeService.getRecipesByCategory(category);
         model.addAttribute("recipes", recipes);
 
@@ -50,7 +53,7 @@ public class MainController {
             BindingResult bindingResult,
             Model model) throws IOException {
 
-        recipe.setAuthor(userService.findByUsername(userDetails.getUsername()));
+        recipe.setAuthor(userService.getAuthorizedUser(userDetails));
 
         validator.validate(recipe, bindingResult);
         if (bindingResult.hasErrors()) {

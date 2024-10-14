@@ -8,9 +8,9 @@ import org.springframework.web.multipart.MultipartFile;
 import ru.kovalenkojuls.cookhub.domains.Recipe;
 import ru.kovalenkojuls.cookhub.domains.enums.RecipeCategory;
 import ru.kovalenkojuls.cookhub.repositories.RecipeRepository;
-
 import java.io.File;
 import java.io.IOException;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -22,8 +22,17 @@ public class RecipeService {
     @Value("${upload.path}")
     private String uploadPath;
 
+    public Optional<Recipe> findById(Long id) {
+        return recipeRepository.findById(id);
+    }
+
     public Iterable<Recipe> getRecipesByCategory(RecipeCategory category) {
         return (category != null) ? recipeRepository.findByCategory(category) : recipeRepository.findAll();
+    }
+
+    public void save(Recipe recipe) throws IOException {
+        Recipe savedRecipe = recipeRepository.save(recipe);
+        log.info("Рецепт с id={} сохранён", savedRecipe.getId());
     }
 
     public void save(Recipe recipe, MultipartFile file) throws IOException {
@@ -34,7 +43,7 @@ public class RecipeService {
         log.info("Рецепт с id={} сохранён", savedRecipe.getId());
     }
 
-    private String saveFile(MultipartFile file) throws IOException {
+    public String saveFile(MultipartFile file) throws IOException {
         String resultFileName = null;
         if (file != null && !file.getOriginalFilename().isEmpty()) {
             File uploadFolder = new File(uploadPath);

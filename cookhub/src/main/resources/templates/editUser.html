@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-    <div th:insert="~{commonParts::header}"></div>
+    <th:block th:insert="~{commonParts/header::header}"></th:block>
 
     <body class="d-flex align-items-center justify-content-center container">
         <div class="edit-user-container col-md-3">
@@ -40,9 +40,9 @@
                 </div>
             </form>
 
-            <div th:insert="~{commonParts::backToMain}"></div>
+            <div th:insert="~{commonParts/commonParts::backToMain}"></div>
         </div>
-    </body>
 
-    <div th:insert="~{commonParts::footer}"></div>
+        <th:block th:insert="~{commonParts/footer::footer}"></th:block>
+    </body>
 </html>

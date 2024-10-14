@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-    <div th:insert="~{commonParts::header}"></div>
+    <th:block th:insert="~{commonParts/header::header}"></th:block>
 
     <body class="container">
-        <div th:insert="~{commonParts::backToMain}" class="col-md-3"></div>
+        <th:block th:insert="~{commonParts/buttonBackToMain::buttonBackToMain}" class="col-md-3"></th:block>
         <h1 class="text-center mb-4">Список пользователей</h1>
 
         <div class="row">
@@ -30,7 +30,7 @@
                 </div>
             </div>
         </div>
-    </body>
 
-    <div th:insert="~{commonParts::footer}"></div>
+        <th:block th:insert="~{commonParts/footer::footer}"></th:block>
+    </body>
 </html>

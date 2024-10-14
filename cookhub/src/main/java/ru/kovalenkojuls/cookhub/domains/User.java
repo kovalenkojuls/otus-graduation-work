@@ -3,6 +3,9 @@ package ru.kovalenkojuls.cookhub.domains;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import ru.kovalenkojuls.cookhub.domains.enums.UserRole;
@@ -13,6 +16,7 @@ import java.util.Set;
 @Table(name = "cookhub_user")
 @Getter
 @Setter
+@EqualsAndHashCode(of = "id")
 public class User {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
@@ -21,10 +25,14 @@ public class User {
 
     @Column(name = "username")
     @NotBlank(message = "Имя пользователя не может быть пустым")
+    @Size(min = 4, max = 20, message = "Имя пользователя должно быть от 4 до 20 символов")
     private String username;
 
     @Column(name = "password")
     @NotBlank(message = "Пароль не может быть пустым")
+    @Size(min = 8, message = "Пароль должен быть не менее 8 символов")
+    @Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()_+-=]).*$",
+            message = "Пароль должен содержать хотя бы одну цифру, одну строчную букву, одну заглавную латинские буквы и один спецсимвол")
     private String password;
 
     @Column(name = "active")
@@ -43,4 +51,7 @@ public class User {
     @CollectionTable(name = "cookhub_user_role", joinColumns = @JoinColumn(name = "cookhub_user_id"))
     @Enumerated(EnumType.STRING)
     private Set<UserRole> roles;
+
+    @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<Recipe> recipes;
 }
