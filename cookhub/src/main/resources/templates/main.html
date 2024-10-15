@@ -2,10 +2,10 @@
 <html xmlns:th="http://www.thymeleaf.org">
     <th:block th:insert="~{commonParts/header::header}"></th:block>
     <body class="container">
-        <th:block th:insert="~{commonParts/buttonLogout::buttonLogout}"></th:block>
+        <th:block th:insert="~{commonParts/navigationBar::navigationBar}"></th:block>
 
         <div class="add-new-recipe-container col-md-8 mx-auto ms-0 mt-3">
-            <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#addNewRecipeForm" aria-expanded="false" aria-controls="addNewRecipeForm">
+            <button class="btn btn-primary ms-2 mb-3" type="button" data-bs-toggle="collapse" data-bs-target="#addNewRecipeForm" aria-expanded="false" aria-controls="addNewRecipeForm">
                 Добавить новый рецепт
             </button>
 

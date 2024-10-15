@@ -8,13 +8,28 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import ru.kovalenkojuls.cookhub.domains.User;
 import ru.kovalenkojuls.cookhub.repositories.UserRepository;
+
 import java.util.stream.Collectors;
 
+/**
+ * Сервис для управления аутентификацией пользователя.
+ *
+ * Этот класс реализует интерфейс {@link UserDetailsService} и предоставляет
+ * функциональность для загрузки информации о пользователе по имени пользователя.
+ */
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
+
     @Autowired
     private UserRepository userRepository;
 
+    /**
+     * Загружает пользователя по его имени пользователя.
+     *
+     * @param username Имя пользователя, по которому будет выполнен поиск.
+     * @return {@link UserDetails} объект, содержащий информацию о пользователе и его ролях.
+     * @throws UsernameNotFoundException Если пользователь с указанным именем не найден.
+     */
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepository.findByUsername(username);

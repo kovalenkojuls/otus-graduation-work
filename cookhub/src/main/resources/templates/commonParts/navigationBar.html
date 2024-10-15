@@ -1,0 +1,13 @@
+<div th:fragment="navigationBar" class="navbar navbar-expand-lg bg-light">
+    <div class="container-fluid">
+        <div class="d-flex w-100 justify-content-between">
+            <div>
+                <a th:href="@{/user}" class="btn btn-outline-secondary me-2">Список пользователей</a>
+                <a th:href="@{/user-recipes/{userId}(userId=${currentUserId})}" class="btn btn-outline-secondary">Мои рецепты</a>
+            </div>
+            <form th:action="@{/logout}" method="post" class="ms-auto">
+                <input type="submit" value="Выйти" class="btn btn-outline-secondary"/>
+            </form>
+        </div>
+    </div>
+</div>

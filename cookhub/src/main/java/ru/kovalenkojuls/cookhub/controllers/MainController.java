@@ -39,9 +39,9 @@ public class MainController {
             @AuthenticationPrincipal UserDetails userDetails,
             @RequestParam(required = false) RecipeCategory category, Model model
     ) {
-        Iterable<Recipe> recipes = recipeService.getRecipesByCategory(category);
-        model.addAttribute("recipes", recipes);
 
+        model.addAttribute("currentUserId", userService.getAuthorizedUser(userDetails).getId());
+        model.addAttribute("recipes", recipeService.getRecipesByCategory(category));
         return "main";
     }
 

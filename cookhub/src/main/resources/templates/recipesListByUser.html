@@ -2,7 +2,7 @@
     <html lang="ru" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
     <th:block th:insert="~{commonParts/header::header}"></th:block>
     <body class="container">
-        <th:block th:insert="~{commonParts/buttonBackToMain::buttonBackToMain}" class="col-md-3"></th:block>
+        <div class="col-md-3"><th:block th:insert="~{commonParts/buttonBackToMain::buttonBackToMain}"></th:block></div>
         <h1 class="text-center mb-4">Список рецептов пользователя <span th:text="${username}"></span>:</h1>
         <th:block th:insert="~{commonParts/recipesList::recipesList}"></th:block>
 
