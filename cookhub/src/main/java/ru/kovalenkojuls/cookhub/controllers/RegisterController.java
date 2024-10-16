@@ -6,10 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 import ru.kovalenkojuls.cookhub.domains.User;
 import ru.kovalenkojuls.cookhub.domains.dto.RecaptchaResponseDto;
@@ -17,6 +14,7 @@ import ru.kovalenkojuls.cookhub.services.UserService;
 import java.util.Collections;
 
 @Controller
+@RequestMapping("/register")
 @RequiredArgsConstructor
 public class RegisterController {
 
@@ -33,13 +31,13 @@ public class RegisterController {
     @Value("${recaptcha.url}")
     private String recaptchaUrl;
 
-    @GetMapping("/register")
+    @GetMapping
     public String register(Model model) {
         model.addAttribute("recaptchaKey", recaptchaKey);
         return "register";
     }
 
-    @PostMapping("/register")
+    @PostMapping
     public String registerUser(
             @RequestParam String passwordRepeat,
             @RequestParam("g-recaptcha-response") String recaptchaResponse,
@@ -64,7 +62,7 @@ public class RegisterController {
         return "/login";
     }
 
-    @GetMapping("/activate/{activationCode}")
+    @GetMapping("activate/{activationCode}")
     public String activate(@PathVariable String activationCode, Model model) {
         boolean isActivated = userService.activateUser(activationCode);
         if (isActivated) {

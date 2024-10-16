@@ -22,6 +22,7 @@ create table recipe (
     filename varchar(255),
     text TEXT not null,
     user_id bigint,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     primary key (id)
 );
 

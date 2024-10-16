@@ -7,6 +7,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import ru.kovalenkojuls.cookhub.domains.enums.RecipeCategory;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Getter
 @Setter
@@ -32,6 +34,9 @@ public class Recipe {
 
     @Column(name = "filename")
     private String filename;
+
+    @Column(name = "created_at")
+    private LocalDateTime createdAt;
 
     public Recipe(String text, RecipeCategory category, User author) {
         this.text = text;

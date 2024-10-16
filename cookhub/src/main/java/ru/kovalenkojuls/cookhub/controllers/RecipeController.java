@@ -5,10 +5,9 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.Validator;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import ru.kovalenkojuls.cookhub.domains.Recipe;
 import ru.kovalenkojuls.cookhub.domains.User;
@@ -17,15 +16,55 @@ import ru.kovalenkojuls.cookhub.services.RecipeService;
 import ru.kovalenkojuls.cookhub.services.UserService;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 
 @Controller
+@RequestMapping("/recipes")
 @AllArgsConstructor
 public class RecipeController {
+
     private final RecipeService recipeService;
     private final UserService userService;
+    private final Validator validator;
 
-    @GetMapping("/edit-recipe/{recipe}")
-    public String updateRecipe(
+    @GetMapping
+    public String getRecipesList(
+            @AuthenticationPrincipal UserDetails userDetails,
+            @RequestParam(required = false) RecipeCategory category, Model model
+    ) {
+
+        model.addAttribute("currentUserId", userService.getAuthorizedUser(userDetails).getId());
+        model.addAttribute("recipes", recipeService.getRecipesByCategory(category));
+        return "recipesListAll";
+    }
+
+    @PostMapping
+    public String saveRecipe(
+            @AuthenticationPrincipal UserDetails userDetails,
+            Recipe recipe,
+            @RequestParam("file") MultipartFile file,
+            BindingResult bindingResult,
+            Model model) throws IOException {
+
+        recipe.setAuthor(userService.getAuthorizedUser(userDetails));
+        recipe.setCreatedAt(LocalDateTime.now());
+
+        validator.validate(recipe, bindingResult);
+        if (bindingResult.hasErrors()) {
+            model.mergeAttributes(ControllerUtils.getMapErrors(bindingResult));
+            if (recipe.getCategory() != null) {
+                model.addAttribute("category", recipe.getCategory().getDisplayName());
+            }
+        } else {
+            recipeService.save(recipe, file);
+        }
+
+        model.addAttribute("recipes", recipeService.getRecipesByCategory(null));
+        return "recipesListAll";
+    }
+
+    @GetMapping("{recipe}")
+    public String getFormForEditRecipe(
             @PathVariable Recipe recipe,
             Model model
     ) {
@@ -34,10 +73,10 @@ public class RecipeController {
         return "editRecipe";
     }
 
-    @PostMapping("/edit-recipe")
+    @PostMapping("{recipeId}")
     public String updateRecipe(
             @AuthenticationPrincipal UserDetails userDetails,
-            @RequestParam Long recipeId,
+            @PathVariable Long recipeId,
             @RequestParam String text,
             @RequestParam RecipeCategory category,
             @RequestParam(name = "file", required = false) MultipartFile file,
@@ -66,7 +105,7 @@ public class RecipeController {
         return "recipesListByUser";
     }
 
-    @GetMapping("/user-recipes/{userId}")
+    @GetMapping("user/{userId}")
     public String getUserRecipes(
             @AuthenticationPrincipal UserDetails userDetails,
             @PathVariable Long userId,

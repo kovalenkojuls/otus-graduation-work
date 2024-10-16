@@ -9,7 +9,7 @@
                 <div class="col-md-12">
                     <div class="row">
                         <div th:each="recipe : ${recipes}" class="col-md-4 mb-4">
-                            <div class="card shadow-sm">
+                            <div class="card shadow-sm" style="height: 100%">
                                 <div>
                                     <div th:if="${recipe.filename}">
                                         <img th:src="@{/images/{filename}(filename=${recipe.filename})}"
@@ -22,13 +22,16 @@
                                 <div class="card-body">
                                     <h5 class="card-title" th:text="${recipe.text}"></h5>
                                     <p class="card-subtitle mb-2 text-muted">
-                                        Автор: <a th:href="@{/user-recipes/{userId}(userId=${recipe.author.id})}"
+                                        Автор: <a th:href="@{/recipes/user/{userId}(userId=${recipe.author.id})}"
                                                   th:text="${recipe.author.username}"></a>
                                     </p>
                                     <p class="card-subtitle mb-2 text-muted">Категория: <span th:text="${recipe.category.displayName}"></span></p>
                                     <p class="card-subtitle mb-2 text-muted">
+                                        Дата создания: <span th:text="${#temporals.format(recipe.createdAt, 'HH:mm:ss yyyy-MM-dd')}"></span>
+                                    </p>
+                                    <p class="card-subtitle mb-2 text-muted">
                                         <a th:if="${currentUserId == recipe.author.id}"
-                                           th:href="@{/edit-recipe/{recipeId}(recipeId=${recipe.id})}"
+                                           th:href="@{/recipes/{recipeId}(recipeId=${recipe.id})}"
                                            class="btn btn-outline-primary">Редактировать</a>
                                     </p>
                                 </div>

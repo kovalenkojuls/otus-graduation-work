@@ -7,8 +7,7 @@
             <div class="col-md-6">
                 <div class="card card-body">
                     <h1>Редактирование рецепта:</h1>
-                    <form th:action="@{/edit-recipe}" method="post" enctype="multipart/form-data">
-                        <input type="text" id="recipeId" name="recipeId" th:value="${recipe.id}" hidden required />
+                    <form th:action="@{/recipes/{recipeId}(recipeId=${recipe.id})}" method="post" enctype="multipart/form-data">
                         <div th:if="${recipe.filename}">
                             <img th:src="@{/images/{filename}(filename=${recipe.filename})}"
                                  alt="Recipe Image" class="card-img-top" style="height: 200px; width: 100%; object-fit: contain;" />

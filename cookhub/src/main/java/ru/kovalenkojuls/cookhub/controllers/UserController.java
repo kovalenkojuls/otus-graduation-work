@@ -11,7 +11,7 @@ import ru.kovalenkojuls.cookhub.services.UserService;
 import java.util.Map;
 
 @Controller
-@RequestMapping("/user")
+@RequestMapping("/users")
 @PreAuthorize("hasAuthority('ADMIN')")
 @AllArgsConstructor
 public class UserController {
@@ -30,14 +30,17 @@ public class UserController {
         return "editUser";
     }
 
-    @PostMapping()
-    public RedirectView updateUser(
-            @RequestParam("id") User user,
+    @PostMapping("{id}")
+    public String updateUser(
+            @PathVariable("id") User user,
             @RequestParam Map<String, String> form,
             @RequestParam String username,
-            @RequestParam String email) {
+            @RequestParam String email,
+            Model model
+    ) {
 
         userService.updateUser(user, username, email, form);
-        return new RedirectView("/user", true);
+        model.addAttribute("users", userService.findAll());
+        return "userList";
     }
 }

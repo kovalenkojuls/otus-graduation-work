@@ -23,7 +23,7 @@
                                     <strong>Активен:</strong> <span th:text="${user.active} ? 'Да' : 'Нет'"></span><br/>
                                     <strong>Роли:</strong> <span th:text="${#strings.listJoin(user.roles, ', ')}"></span>
                                 </p>
-                                <a th:href="@{/user/{id}(id=${user.id})}" class="btn btn-warning">Редактировать</a>
+                                <a th:href="@{/users/{id}(id=${user.id})}" class="btn btn-warning">Редактировать</a>
                             </div>
                         </div>
                     </div>

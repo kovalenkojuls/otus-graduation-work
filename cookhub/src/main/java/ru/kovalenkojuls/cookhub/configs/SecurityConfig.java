@@ -40,12 +40,12 @@ public class SecurityConfig {
         String rememberMeSecret = UUID.randomUUID().toString();
         http
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/", "/register", "/static/**", "/activate/*").permitAll()
+                        .requestMatchers("/", "/register/**", "/static/**").permitAll()
                         .requestMatchers("/**").authenticated()
                 )
                 .formLogin(form -> form
                         .loginPage("/login")
-                        .defaultSuccessUrl("/main")
+                        .defaultSuccessUrl("/recipes")
                         .permitAll()
                 )
                 .logout(LogoutConfigurer::permitAll)

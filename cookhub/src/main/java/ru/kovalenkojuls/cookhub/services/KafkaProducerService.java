@@ -36,7 +36,7 @@ public class KafkaProducerService {
                 newUser.getEmail(),
                 "Подтвердите регистрацию в CookHub",
                 "activateEmail",
-                Map.of("activateLink", String.format("%s:%s/activate/%s", appDomain, appPort, newUser.getActivationCode()))
+                Map.of("activateLink", String.format("%s:%s/register/activate/%s", appDomain, appPort, newUser.getActivationCode()))
         );
         kafkaTemplate.send("send-mail-event", emailDTO);
     }

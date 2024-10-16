@@ -5,14 +5,15 @@
         <th:block th:insert="~{commonParts/navigationBar::navigationBar}"></th:block>
 
         <div class="add-new-recipe-container col-md-8 mx-auto ms-0 mt-3">
-            <button class="btn btn-primary ms-2 mb-3" type="button" data-bs-toggle="collapse" data-bs-target="#addNewRecipeForm" aria-expanded="false" aria-controls="addNewRecipeForm">
+            <button class="btn btn-primary ms-2 mb-3" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#addNewRecipeForm" aria-expanded="false" aria-controls="addNewRecipeForm">
                 Добавить новый рецепт
             </button>
 
             <div class="collapse" id="addNewRecipeForm">
                 <div class="card card-body">
                     <h1 class="text-center mb-4">Новый рецепт:</h1>
-                    <form th:action="@{/main}" method="post" enctype="multipart/form-data">
+                    <form th:action="@{/recipes}" method="post" enctype="multipart/form-data">
                         <div class="row mb-3">
                             <div class="col-md-6">
                                 <label for="recipe-category" class="form-label">Категория:</label>
