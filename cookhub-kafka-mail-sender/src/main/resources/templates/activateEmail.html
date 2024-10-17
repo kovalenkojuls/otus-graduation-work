@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <title>Подтверждение регистрации</title>
+    </head>
+    <body>
+        <h3>Добро пожаловать в приложение CookHub!</h3>
+        <p>Подтвердите, пожалуйста, Ваш email.</p>
+        <p>Для этого перейдите по ссылке:</p>
+        <a th:href="@{${activateLink}}" th:text="${activateLink}"></a>
+    </body>
+</html>

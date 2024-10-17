@@ -1,0 +1,7 @@
+<div th:fragment="optionForSelectCategory">
+    <option value="" disabled th:selected="${category == null}">-- Выберите категорию --</option>
+    <option th:each="currCategory : ${T(ru.kovalenkojuls.cookhub.domains.enums.RecipeCategory).values()}"
+            th:value="${currCategory.name()}"
+            th:text="${currCategory.displayName}"
+            th:selected="${currCategory.displayName == category}"></option>
+</div>
