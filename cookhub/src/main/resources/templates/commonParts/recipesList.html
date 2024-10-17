@@ -30,7 +30,7 @@
                                         Дата создания: <span th:text="${#temporals.format(recipe.createdAt, 'HH:mm:ss yyyy-MM-dd')}"></span>
                                     </p>
                                     <p class="card-subtitle mb-2 text-muted">
-                                        <a th:if="${currentUserId == recipe.author.id}"
+                                        <a th:if="${currentUser.id == recipe.author.id}"
                                            th:href="@{/recipes/{recipeId}(recipeId=${recipe.id})}"
                                            class="btn btn-outline-primary">Редактировать</a>
                                     </p>

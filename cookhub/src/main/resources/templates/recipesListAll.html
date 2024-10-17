@@ -10,7 +10,7 @@
                 Добавить новый рецепт
             </button>
 
-            <div class="collapse" id="addNewRecipeForm">
+            <div class="collapse" id="addNewRecipeForm" th:classappend="${textError != null} ? 'show' : ''">
                 <div class="card card-body">
                     <h1 class="text-center mb-4">Новый рецепт:</h1>
                     <form th:action="@{/recipes}" method="post" enctype="multipart/form-data">
@@ -47,7 +47,7 @@
         </div>
 
         <h1 class="text-center mb-4">Список рецептов:</h1>
-        <form th:action="@{/main}" method="get" class="mb-4">
+        <form th:action="@{/recipes}" method="get" class="mb-4">
             <div class="row justify-content-start">
                 <div class="col-md-4 d-flex align-items-center">
                     <div class="me-2 flex-grow-1">

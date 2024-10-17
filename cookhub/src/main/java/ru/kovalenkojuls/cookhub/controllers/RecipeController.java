@@ -33,7 +33,7 @@ public class RecipeController {
             @RequestParam(required = false) RecipeCategory category, Model model
     ) {
 
-        model.addAttribute("currentUserId", userService.getAuthorizedUser(userDetails).getId());
+        model.addAttribute("currentUser", userService.getAuthorizedUser(userDetails));
         model.addAttribute("recipes", recipeService.getRecipesByCategory(category));
         return "recipesListAll";
     }
@@ -46,7 +46,8 @@ public class RecipeController {
             BindingResult bindingResult,
             Model model) throws IOException {
 
-        recipe.setAuthor(userService.getAuthorizedUser(userDetails));
+        User currentUser = userService.getAuthorizedUser(userDetails);
+        recipe.setAuthor(currentUser);
         recipe.setCreatedAt(LocalDateTime.now());
 
         validator.validate(recipe, bindingResult);
@@ -59,6 +60,7 @@ public class RecipeController {
             recipeService.save(recipe, file);
         }
 
+        model.addAttribute("currentUser", userService.getAuthorizedUser(userDetails));
         model.addAttribute("recipes", recipeService.getRecipesByCategory(null));
         return "recipesListAll";
     }
@@ -86,22 +88,13 @@ public class RecipeController {
         Recipe recipe = recipeService.findById(recipeId).orElseThrow();
         User currentUser = userService.getAuthorizedUser(userDetails);
 
-        model.addAttribute("currentUserId", currentUser.getId());
+        model.addAttribute("currentUser", currentUser);
         model.addAttribute("recipes", currentUser.getRecipes());
-        model.addAttribute("username", currentUser.getUsername());
-
         if (!currentUser.equals(recipe.getAuthor())) {
             return "recipesListByUser";
         }
 
-        recipe.setText(text);
-        recipe.setCategory(category);
-        if (file != null && !file.isEmpty()) {
-            String filename = recipeService.saveFile(file);
-            recipe.setFilename(filename);
-        }
-        recipeService.save(recipe);
-
+        recipeService.update(text, category, file, recipe);
         return "recipesListByUser";
     }
 
@@ -112,10 +105,11 @@ public class RecipeController {
             Model model
     ) {
         User user = userService.findById(userId).orElseThrow();
-        Long currentUserId = userService.getAuthorizedUser(userDetails).getId();
-        model.addAttribute("currentUserId", currentUserId);
+        User currentUser = userService.getAuthorizedUser(userDetails);
+
+        model.addAttribute("currentUser", currentUser);
+        model.addAttribute("user", user);
         model.addAttribute("recipes", user.getRecipes());
-        model.addAttribute("username", user.getUsername());
         return "recipesListByUser";
     }
 }

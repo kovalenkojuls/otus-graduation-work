@@ -98,4 +98,14 @@ public class RecipeService {
 
         return resultFileName;
     }
+
+    public void update(String text, RecipeCategory category, MultipartFile file, Recipe recipe) throws IOException {
+        recipe.setText(text);
+        recipe.setCategory(category);
+        if (file != null && !file.isEmpty()) {
+            String filename = saveFile(file);
+            recipe.setFilename(filename);
+        }
+        save(recipe);
+    }
 }

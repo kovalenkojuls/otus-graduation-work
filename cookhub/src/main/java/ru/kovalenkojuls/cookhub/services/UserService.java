@@ -132,6 +132,28 @@ public class UserService {
     }
 
     /**
+     * Добавляет пользователя в список подписок текущего пользователя.
+     *
+     * @param currentUser  Текущий пользователь, который хочет подписаться.
+     * @param following    Пользователь, на которого осуществляется подписка.
+     */
+    public void addFollowing(User currentUser, User following) {
+        currentUser.getFollowings().add(following);
+        userRepository.save(currentUser);
+    }
+
+    /**
+     * Удаляет пользователя из списка подписок текущего пользователя.
+     *
+     * @param currentUser  Текущий пользователь, который хочет отписаться.
+     * @param following    Пользователь, от которого осуществляется отписка.
+     */
+    public void removeFollowing(User currentUser, User following) {
+        currentUser.getFollowings().remove(following);
+        userRepository.save(currentUser);
+    }
+
+    /**
      * Обновить роли пользователя согласно предоставленным данным.
      *
      * @param user Пользователь, роли которого нужно обновить.

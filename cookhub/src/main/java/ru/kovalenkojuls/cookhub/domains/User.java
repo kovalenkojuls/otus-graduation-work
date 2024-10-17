@@ -9,7 +9,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import ru.kovalenkojuls.cookhub.domains.enums.UserRole;
-
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -54,4 +54,21 @@ public class User {
 
     @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<Recipe> recipes;
+
+    @ManyToMany
+    @JoinTable(
+            name = "cookhub_user_follower",
+            joinColumns = { @JoinColumn(name = "following_id") },
+            inverseJoinColumns = { @JoinColumn(name = "follower_id") }
+    )
+    private Set<User> followers = new HashSet<>();
+
+    @ManyToMany
+    @JoinTable(
+            name = "cookhub_user_follower",
+            joinColumns = { @JoinColumn(name = "follower_id") },
+            inverseJoinColumns = { @JoinColumn(name = "following_id") }
+    )
+    private Set<User> followings = new HashSet<>();
+
 }

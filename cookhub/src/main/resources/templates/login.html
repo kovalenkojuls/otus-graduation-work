@@ -3,7 +3,7 @@
     <th:block th:insert="~{commonParts/header::header}"></th:block>
 
     <body class="d-flex align-items-center justify-content-center">
-        <div class="login-container col-md-3">
+        <div class="container col-md-3 mx-auto">
             <h1 class="text-center">Вход в приложение</h1>
 
             <p class="alert alert-danger" th:if="${errorMessage}" th:text="${errorMessage}"></p>
@@ -24,7 +24,6 @@
                 </div>
             </form>
         </div>
-
         <th:block th:insert="~{commonParts/footer::footer}"></th:block>
     </body>
 </html>

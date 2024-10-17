@@ -3,7 +3,7 @@
     <th:block th:insert="~{commonParts/header::header}"></th:block>
 
     <body class="d-flex align-items-center justify-content-center">
-        <div class="register-container col-md-3">
+        <div class="container col-md-3">
             <h1 class="text-center">Регистрация нового пользователя</h1>
             <p style="color: red" th:if="${errorMessage}" th:text="${errorMessage}"></p>
 
@@ -41,7 +41,7 @@
                 <button type="submit" class="btn btn-primary w-100">Зарегистрироваться</button>
             </form>
 
-            <div th:insert="~{commonParts/buttonBackToMain::buttonBackToMain}"></div>
+            <a th:href="@{/recipes}" class="btn btn-outline-secondary w-100 mt-2">Вернуться на главную</a>
         </div>
 
         <th:block th:insert="~{commonParts/footer::footer}"></th:block>
