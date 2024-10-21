@@ -10,8 +10,8 @@
             </div>
             <div class="d-flex align-items-center ms-auto border p-2 rounded" style="background-color: #f8f9fa;">
                 <div class="me-3" style="position: relative;">
-                    <span class="fw-bold" th:text="${currentUser.username}"
-                          style="font-size: 1.4rem; color: #343a40; padding: 0.5rem 1rem; border-radius: 5px; background-color: #e9ecef;">Имя пользователя</span>
+                    <span class="fw-bold" style="font-size: 1.4rem; color: #343a40; padding: 0.5rem 1rem; border-radius: 5px; background-color: #e9ecef;">
+                        <span id="navbar-username"  th:text="${currentUser.username}">Имя пользователя</span></span>
                 </div>
                 <span class="badge bg-success me-1" th:text="${currentUser.followers.size()}">0</span>
                 <span class="text-muted">фолловеров,</span>

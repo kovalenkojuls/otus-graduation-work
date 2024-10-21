@@ -63,7 +63,7 @@ public class RegisterController {
     }
 
     @GetMapping("activate/{activationCode}")
-    public String activate(@PathVariable String activationCode, Model model) {
+    public String activateEmail(@PathVariable String activationCode, Model model) {
         boolean isActivated = userService.activateUser(activationCode);
         if (isActivated) {
             model.addAttribute("successMessage", "Почта успешно подтверждена.");

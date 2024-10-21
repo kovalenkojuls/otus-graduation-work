@@ -38,6 +38,21 @@ public class RecipeController {
         return "recipesListAll";
     }
 
+    @GetMapping("user/{userId}")
+    public String getRecipesListByUser(
+            @AuthenticationPrincipal UserDetails userDetails,
+            @PathVariable Long userId,
+            Model model
+    ) {
+        User user = userService.findById(userId).orElseThrow();
+        User currentUser = userService.getAuthorizedUser(userDetails);
+
+        model.addAttribute("currentUser", currentUser);
+        model.addAttribute("user", user);
+        model.addAttribute("recipes", user.getRecipes());
+        return "recipesListByUser";
+    }
+
     @PostMapping
     public String saveRecipe(
             @AuthenticationPrincipal UserDetails userDetails,
@@ -66,7 +81,7 @@ public class RecipeController {
     }
 
     @GetMapping("{recipe}")
-    public String getFormForEditRecipe(
+    public String getFormForUpdateRecipe(
             @PathVariable Recipe recipe,
             Model model
     ) {
@@ -95,21 +110,6 @@ public class RecipeController {
         }
 
         recipeService.update(text, category, file, recipe);
-        return "recipesListByUser";
-    }
-
-    @GetMapping("user/{userId}")
-    public String getUserRecipes(
-            @AuthenticationPrincipal UserDetails userDetails,
-            @PathVariable Long userId,
-            Model model
-    ) {
-        User user = userService.findById(userId).orElseThrow();
-        User currentUser = userService.getAuthorizedUser(userDetails);
-
-        model.addAttribute("currentUser", currentUser);
-        model.addAttribute("user", user);
-        model.addAttribute("recipes", user.getRecipes());
         return "recipesListByUser";
     }
 }

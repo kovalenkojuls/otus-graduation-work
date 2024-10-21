@@ -20,14 +20,14 @@ public class UserController {
     private final UserService userService;
 
     @GetMapping
-    public String userList(@AuthenticationPrincipal UserDetails userDetails, Model model) {
+    public String getUserList(@AuthenticationPrincipal UserDetails userDetails, Model model) {
         model.addAttribute("currentUser", userService.getAuthorizedUser(userDetails));
         model.addAttribute("users", userService.findAll());
         return "userList";
     }
 
     @GetMapping("{id}")
-    public String editUser(
+    public String getFormForUpdateUser(
             @AuthenticationPrincipal UserDetails userDetails,
             @PathVariable("id") User user,
             Model model
