@@ -7,6 +7,8 @@ RECAPTCHA_KEY="" # Ключ для интеграции с reCAPTCHA
 RECAPTCHA_SECRET="" # Секретный ключ для интеграции с reCAPTCHA
 SPRING_MAIL_USERNAME="" # Адрес электронной почты для SMTP-сервера
 SPRING_MAIL_PASSWORD="" # Пароль для аутентификации на SMTP-сервере
+$TELEGRAM_BOT_NAME="" # Имя телеграм бота
+$TELEGRAM_BOT_TOKEN="" # Токен телеграм бота
 
 echo "Клонирование репозитория..."
 git clone -b dev https://github.com/kovalenkojuls/otus-graduation-work.git
@@ -27,9 +29,14 @@ sed -i "s|recaptcha.secret=|recaptcha.secret=$RECAPTCHA_SECRET|" cookhub-web-app
 sed -i "s|spring.mail.username=|spring.mail.username=$SPRING_MAIL_USERNAME|" cookhub-email-service/src/main/resources/application.properties
 sed -i "s|spring.mail.password=|spring.mail.password=$SPRING_MAIL_PASSWORD|" cookhub-email-service/src/main/resources/application.properties
 
+sed -i "s|upload.path=|upload.path=$UPLOAD_PATH|" cookhub-telegram-bot/src/main/resources/application.properties
+sed -i "s|telegrambot.name=|telegrambot.name=$TELEGRAM_BOT_NAME|" cookhub-telegram-bot/src/main/resources/application.properties
+sed -i "s|telegrambot.token=|telegrambot.token=$TELEGRAM_BOT_TOKEN|" cookhub-telegram-bot/src/main/resources/application.properties
+
 echo "Обеспечение прав на выполнение скриптов Gradle..."
 chmod +x cookhub-web-application/gradlew
 chmod +x cookhub-email-service/gradlew
+chmod +x cookhub-telegram-bot/gradlew
 
 echo "Сборка и запуск CookHub Web Application..."
 cd cookhub-web-application || exit 1
@@ -42,6 +49,12 @@ cd ../cookhub-email-service/ || exit 1
 ./gradlew build
 touch ../../logs/cookhub-email-service.log
 ./gradlew bootRun > ../../logs/cookhub-email-service.log 2>&1 &
+
+echo "Сборка и запуск CookHub Telegram Bot..."
+cd ../cookhub-telegram-bot/ || exit 1
+./gradlew build
+touch ../../logs/cookhub-telegram-bot.log
+./gradlew bootRun > ../../logs/cookhub-telegram-bot.log 2>&1 &
 
 echo "Ожидание завершения всех фонов процессов..."
 wait

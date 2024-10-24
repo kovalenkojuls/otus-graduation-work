@@ -96,3 +96,5 @@ http://COOKHUB_DOMAIN:8082 - Kafka UI
     ![Админка](https://github.com/kovalenkojuls/otus-graduation-work/blob/dev/cookhub-screenshots/admin.png)
 5. Подписчики:
    ![Подписчики](https://github.com/kovalenkojuls/otus-graduation-work/blob/dev/cookhub-screenshots/follower.png)
+6. Telegram бот:  
+   ![Telegram бот](https://github.com/kovalenkojuls/otus-graduation-work/blob/dev/cookhub-screenshots/telegrambot.png)
