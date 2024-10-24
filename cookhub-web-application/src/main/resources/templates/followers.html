@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+    <th:block th:insert="~{commonParts/header::header}"></th:block>
+    <body class="container">
+        <th:block th:insert="~{commonParts/navigationBar::navigationBar}"></th:block>
+
+        <div class="row mt-4">
+            <div class="col-md-6">
+                <h2 class="text-center p-3 bg-light border bg-light">Подписчики</h2>
+                <div class="card">
+                    <div class="card-body">
+                        <ul class="list-group">
+                            <li th:each="follower : ${currentUser.followers}" class="list-group-item mb-3">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <span th:text="${follower.username}" class="font-weight-bold h5"></span>
+                                        <span th:text="${follower.email}" class="text-muted d-block mt-1"></span>
+                                    </div>
+                                    <a th:href="@{/recipes/user/{userId}(userId=${follower.id})}" class="btn btn-outline-success btn-sm">Просмотреть рецепты</a>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <h2 class="text-center p-3 bg-light border bg-light">Подписки</h2>
+                <div class="card">
+                    <div class="card-body">
+                        <ul class="list-group">
+                            <li th:each="following : ${currentUser.followings}" class="list-group-item mb-3">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <span th:text="${following.username}" class="font-weight-bold h5"></span>
+                                        <span th:text="${following.email}" class="text-muted d-block mt-1"></span>
+                                    </div>
+                                    <a th:href="@{/recipes/user/{userId}(userId=${following.id})}" class="btn btn-outline-success btn-sm">Просмотреть рецепты</a>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <th:block th:insert="~{commonParts/footer::footer}"></th:block>
+    </body>
+</html>
