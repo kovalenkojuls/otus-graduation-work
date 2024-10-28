@@ -3,9 +3,11 @@ package ru.kovalenkojuls.cookhub.services;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import ru.kovalenkojuls.cookhub.domains.Recipe;
+import ru.kovalenkojuls.cookhub.domains.User;
 import ru.kovalenkojuls.cookhub.domains.enums.RecipeCategory;
 import ru.kovalenkojuls.cookhub.repositories.RecipeRepository;
 
@@ -43,10 +45,22 @@ public class RecipeService {
      * Получить рецепты по категории.
      *
      * @param category Категория рецептов. Если {@code null}, возвращаются все рецепты.
+     * @param pageable Объект Pageable для постраничной выборки.
      * @return Итератор рецептов по указанной категории.
      */
-    public Iterable<Recipe> getRecipesByCategory(RecipeCategory category) {
-        return (category != null) ? recipeRepository.findByCategory(category) : recipeRepository.findAll();
+    public Iterable<Recipe> findRecipesByCategory(RecipeCategory category, Pageable pageable) {
+        return (category != null) ? recipeRepository.findByCategory(category, pageable) : recipeRepository.findAll(pageable);
+    }
+
+    /**
+     * Возвращает список рецептов, принадлежащих пользователю с заданным ID.
+     *
+     * @param author автор рецепта.
+     * @param pageable Объект Pageable для постраничной выборки.
+     * @return Список рецептов.
+     */
+    public Iterable<Recipe> findRecipesByAuthor(User author, Pageable pageable) {
+        return recipeRepository.findByAuthor(author, pageable);
     }
 
     /**

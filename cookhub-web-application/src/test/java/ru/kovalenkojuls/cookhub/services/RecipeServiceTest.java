@@ -11,8 +11,6 @@ import ru.kovalenkojuls.cookhub.domains.enums.RecipeCategory;
 import ru.kovalenkojuls.cookhub.repositories.RecipeRepository;
 
 import java.io.IOException;
-import java.util.Collections;
-import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -39,16 +37,6 @@ class RecipeServiceTest {
 
         assertTrue(result.isPresent());
         assertEquals(recipeId, result.get().getId());
-    }
-
-    @Test
-    void testGetRecipesByCategory() {
-        RecipeCategory category = RecipeCategory.SALADS;
-        List<Recipe> recipes = Collections.singletonList(new Recipe());
-        when(recipeRepository.findByCategory(category)).thenReturn(recipes);
-
-        Iterable<Recipe> result = recipeService.getRecipesByCategory(category);
-        assertEquals(recipes, result);
     }
 
     @Test

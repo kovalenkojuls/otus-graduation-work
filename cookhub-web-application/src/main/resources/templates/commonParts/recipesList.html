@@ -1,14 +1,15 @@
 <div th:fragment="recipesList" class="recipes-list-container">
+    <th:block th:insert="~{commonParts/pagination::pagination}"></th:block>
     <div class="row">
         <div class="col-md-12">
-            <div th:if="${#lists.isEmpty(recipes)}" class="alert alert-warning text-center" role="alert">
+            <div th:if="${#lists.isEmpty(page.content)}" class="alert alert-warning text-center" role="alert">
                 Список пуст
             </div>
 
             <div class="row">
                 <div class="col-md-12">
                     <div class="row">
-                        <div th:each="recipe : ${recipes}" class="col-md-4 mb-4">
+                        <div th:each="recipe : ${page.content}" class="col-md-4 mb-4">
                             <div class="card shadow-sm" style="height: 100%">
                                 <div>
                                     <div th:if="${recipe.filename}">

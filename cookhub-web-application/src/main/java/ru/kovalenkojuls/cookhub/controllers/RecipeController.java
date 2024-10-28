@@ -1,6 +1,9 @@
 package ru.kovalenkojuls.cookhub.controllers;
 
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -30,11 +33,13 @@ public class RecipeController {
     @GetMapping
     public String getRecipesList(
             @AuthenticationPrincipal UserDetails userDetails,
-            @RequestParam(required = false) RecipeCategory category, Model model
+            @RequestParam(required = false) RecipeCategory category,
+            @PageableDefault(sort = { "createdAt" }, direction = Sort.Direction.DESC) Pageable pageable,
+            Model model
     ) {
-
+        model.addAttribute("page", recipeService.findRecipesByCategory(category, pageable));
+        model.addAttribute("url", "/recipes");
         model.addAttribute("currentUser", userService.getAuthorizedUser(userDetails));
-        model.addAttribute("recipes", recipeService.getRecipesByCategory(category));
         return "recipesListAll";
     }
 
@@ -42,6 +47,7 @@ public class RecipeController {
     public String getRecipesListByUser(
             @AuthenticationPrincipal UserDetails userDetails,
             @PathVariable Long userId,
+            @PageableDefault(sort = { "createdAt" }, direction = Sort.Direction.DESC) Pageable pageable,
             Model model
     ) {
         User user = userService.findById(userId).orElseThrow();
@@ -49,7 +55,8 @@ public class RecipeController {
 
         model.addAttribute("currentUser", currentUser);
         model.addAttribute("user", user);
-        model.addAttribute("recipes", user.getRecipes());
+        model.addAttribute("url", "/user/" + userId);
+        model.addAttribute("page", recipeService.findRecipesByAuthor(user, pageable));
         return "recipesListByUser";
     }
 
@@ -59,6 +66,7 @@ public class RecipeController {
             Recipe recipe,
             @RequestParam("file") MultipartFile file,
             BindingResult bindingResult,
+            @PageableDefault(sort = { "createdAt" }, direction = Sort.Direction.DESC) Pageable pageable,
             Model model) throws IOException {
 
         User currentUser = userService.getAuthorizedUser(userDetails);
@@ -76,7 +84,8 @@ public class RecipeController {
         }
 
         model.addAttribute("currentUser", userService.getAuthorizedUser(userDetails));
-        model.addAttribute("recipes", recipeService.getRecipesByCategory(null));
+        model.addAttribute("url", "/recipes");
+        model.addAttribute("page", recipeService.findRecipesByCategory(null, pageable));
         return "recipesListAll";
     }
 
