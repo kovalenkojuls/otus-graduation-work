@@ -34,6 +34,13 @@ CREATE TABLE cookhub_user_follower (
     PRIMARY KEY (follower_id, following_id)
 );
 
+-- Создание таблицы лайков рецептов
+CREATE TABLE recipe_like (
+    recipe_id BIGINT,
+    user_id BIGINT,
+    PRIMARY KEY (recipe_id, user_id)
+);
+
 -- Создание внешних ключей
 ALTER TABLE IF EXISTS cookhub_user_role
     ADD CONSTRAINT cookhub_user_role_user_fk
@@ -53,4 +60,14 @@ ALTER TABLE IF EXISTS cookhub_user_follower
 ALTER TABLE IF EXISTS cookhub_user_follower
     ADD CONSTRAINT cookhub_user_follower_user_fk2
     FOREIGN KEY (following_id)
+    REFERENCES cookhub_user (id);
+
+ALTER TABLE IF EXISTS recipe_like
+    ADD CONSTRAINT recipe_like_recipe_fk2
+    FOREIGN KEY (recipe_id)
+    REFERENCES recipe (id);
+
+ALTER TABLE IF EXISTS recipe_like
+    ADD CONSTRAINT recipe_like_user_fk2
+    FOREIGN KEY (user_id)
     REFERENCES cookhub_user (id);

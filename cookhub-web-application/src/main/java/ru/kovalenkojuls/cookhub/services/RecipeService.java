@@ -14,13 +14,13 @@ import ru.kovalenkojuls.cookhub.repositories.RecipeRepository;
 import java.io.File;
 import java.io.IOException;
 import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
 
 /**
  * Сервис для управления рецептами.
  *
- * Этот класс предоставляет функциональность для работы с рецептами,
- * включая их сохранение и получение по идентификатору и категории.
+ * Этот класс предоставляет функциональность для работы с рецептами.
  */
 @Service
 @RequiredArgsConstructor
@@ -48,8 +48,11 @@ public class RecipeService {
      * @param pageable Объект Pageable для постраничной выборки.
      * @return Итератор рецептов по указанной категории.
      */
-    public Iterable<Recipe> findRecipesByCategory(RecipeCategory category, Pageable pageable) {
-        return (category != null) ? recipeRepository.findByCategory(category, pageable) : recipeRepository.findAll(pageable);
+    public Iterable<Recipe> findRecipesByCategory(RecipeCategory category, User currentUser, Pageable pageable) {
+        Iterable<Recipe> page = (category != null) ?
+                recipeRepository.findByCategory(category, pageable) : recipeRepository.findAll(pageable);
+        page.forEach(recipe -> {recipe.setMeLiked(currentUser);});
+        return page;
     }
 
     /**
@@ -59,8 +62,10 @@ public class RecipeService {
      * @param pageable Объект Pageable для постраничной выборки.
      * @return Список рецептов.
      */
-    public Iterable<Recipe> findRecipesByAuthor(User author, Pageable pageable) {
-        return recipeRepository.findByAuthor(author, pageable);
+    public Iterable<Recipe> findRecipesByAuthor(User author, User currentUser, Pageable pageable) {
+        Iterable<Recipe> page = recipeRepository.findByAuthor(author, pageable);
+        page.forEach(recipe -> {recipe.setMeLiked(currentUser);});
+        return page;
     }
 
     /**
@@ -121,5 +126,22 @@ public class RecipeService {
             recipe.setFilename(filename);
         }
         save(recipe);
+    }
+
+    /**
+     * Добавляет или удаляет лайк рецепта для авторизованного пользователя.
+     *
+     * @param recipe Рецепт, который нужно лайкнуть или удалить лайк.
+     * @param currentUser Текущий авторизованный пользователь.
+     */
+    public void like(Recipe recipe, User currentUser) {
+        Set<User> likes = recipe.getLikes();
+        if (likes.contains(currentUser)) {
+            likes.remove(currentUser);
+        } else {
+            likes.add(currentUser);
+        }
+
+        recipeRepository.save(recipe);
     }
 }

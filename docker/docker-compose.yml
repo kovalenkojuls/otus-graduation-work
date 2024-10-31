@@ -13,7 +13,7 @@ services:
       - postgres_data:/var/lib/postgresql/data
     healthcheck:
       test: [ "CMD", "pg_isready", "-U", "usr" ]
-      interval: 30s
+      interval: 10s
       timeout: 10s
       retries: 5
 
@@ -39,7 +39,7 @@ services:
       ZOOKEEPER_TICK_TIME: 2000
     healthcheck:
       test: [ "CMD", "nc", "-z", "localhost", "2181" ]
-      interval: 30s
+      interval: 10s
       timeout: 10s
       retries: 5
 
@@ -61,7 +61,7 @@ services:
       KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
     healthcheck:
       test: [ "CMD", "nc", "-vz", "localhost", "9092" ]
-      interval: 30s
+      interval: 10s
       timeout: 10s
       retries: 5
 

@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
  * Сервис для управления аутентификацией пользователя.
  *
  * Этот класс реализует интерфейс {@link UserDetailsService} и предоставляет
- * функциональность для загрузки информации о пользователе по имени пользователя.
+ * функциональность для загрузки информации о пользователе по имени.
  */
 @Service
 public class CustomUserDetailsService implements UserDetailsService {

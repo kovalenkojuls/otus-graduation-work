@@ -8,6 +8,8 @@ import lombok.Setter;
 import ru.kovalenkojuls.cookhub.domains.enums.RecipeCategory;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -38,9 +40,18 @@ public class Recipe {
     @Column(name = "created_at")
     private LocalDateTime createdAt;
 
-    public Recipe(String text, RecipeCategory category, User author) {
-        this.text = text;
-        this.category = category;
-        this.author = author;
+    @ManyToMany
+    @JoinTable(
+            name = "recipe_like",
+            joinColumns = { @JoinColumn(name = "recipe_id") },
+            inverseJoinColumns = { @JoinColumn(name = "user_id")}
+    )
+    private Set<User> likes = new HashSet<>();
+
+    @Transient
+    private boolean meLiked;
+
+    public void setMeLiked(User currentUser) {
+        this.meLiked = likes.contains(currentUser);
     }
 }

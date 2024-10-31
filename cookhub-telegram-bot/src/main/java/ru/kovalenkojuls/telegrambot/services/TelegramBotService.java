@@ -114,6 +114,7 @@ public class TelegramBotService extends TelegramLongPollingBot {
                 recipe.getAuthor().getUsername(),
                 recipe.getAuthor().getFollowers().size(),
                 recipe.getAuthor().getFollowings().size(),
+                recipe.getLikes().size(),
                 recipe.getCreatedAt().format(DateTimeFormatter.ofPattern("dd MMMM yyyy г., HH:mm"))
         );
 
