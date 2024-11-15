@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <th:block th:insert="~{commonParts/header::header}"></th:block>
+
+    <body class="d-flex align-items-center justify-content-center">
+        <div class="container col-md-3">
+            <h1 class="text-center">Регистрация нового пользователя</h1>
+            <p style="color: red" th:if="${errorMessage}" th:text="${errorMessage}"></p>
+
+            <form th:action="@{/register}" method="post" class="mt-4">
+                <div class="mb-3">
+                    <label for="username" class="form-label">Имя</label>
+                    <input type="text" id="username" name="username" class="form-control" placeholder="Имя"
+                           th:value="${user != null ? user.username : ''}"
+                           th:classappend="${usernameError != null} ? 'is-invalid' : ''"/>
+                    <div th:if="${usernameError != null}" class="invalid-feedback"><span th:text="${usernameError}"></span></div>
+                </div>
+                <div class="mb-3">
+                    <label for="email" class="form-label">E-mail</label>
+                    <input id="email" name="email" class="form-control" placeholder="user@domain.ru"
+                           th:value="${user != null ? user.email : ''}"
+                           th:classappend="${emailError != null} ? 'is-invalid' : ''"/>
+                    <div th:if="${emailError != null}" class="invalid-feedback"><span th:text="${emailError}"></span></div>
+                </div>
+                <div class="mb-3">
+                    <label for="password" class="form-label">Пароль</label>
+                    <input type="password" id="password" name="password" class="form-control" placeholder="Пароль"
+                           th:classappend="${passwordError != null} ? 'is-invalid' : ''"/>
+                    <div th:if="${passwordError != null}" class="invalid-feedback"><span th:text="${passwordError}"></span></div>
+                </div>
+                <div class="mb-3">
+                    <label for="passwordRepeat" class="form-label">Пароль</label>
+                    <input type="password" id="passwordRepeat" name="passwordRepeat" class="form-control" placeholder="Повторите пароль"
+                           th:classappend="${passwordRepeatError != null} ? 'is-invalid' : ''"/>
+                    <div th:if="${passwordRepeatError != null}" class="invalid-feedback"><span th:text="${passwordRepeatError}"></span></div>
+                </div>
+                <div class="mb-3">
+                    <div class="g-recaptcha" th:attr="data-sitekey=${recaptchaKey}" th:classappend="${recaptchaError != null} ? 'is-invalid' : ''"></div>
+                    <div th:if="${recaptchaError != null}" class="invalid-feedback"><span th:text="${recaptchaError}"></span></div>
+                </div>
+                <button type="submit" class="btn btn-primary w-100">Зарегистрироваться</button>
+            </form>
+
+            <a th:href="@{/recipes}" class="btn btn-outline-secondary w-100 mt-2">Вернуться на главную</a>
+        </div>
+
+        <th:block th:insert="~{commonParts/footer::footer}"></th:block>
+    </body>
+</html>

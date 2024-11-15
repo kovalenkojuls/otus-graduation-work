@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <th:block th:insert="~{commonParts/header::header}"></th:block>
+
+    <body class="container">
+        <div class="row mt-5 justify-content-center">
+            <div class="col-md-6">
+                <div class="card card-body">
+                    <h1>Редактирование рецепта:</h1>
+                    <form th:action="@{/recipes/{recipeId}(recipeId=${recipe.id})}" method="post" enctype="multipart/form-data">
+                        <div th:if="${recipe.filename}">
+                            <img th:src="@{/images/{filename}(filename=${recipe.filename})}"
+                                 alt="Recipe Image" class="card-img-top" style="height: 200px; width: 100%; object-fit: contain;" />
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="recipe-category" class="form-label">Категория:</label>
+                                <select id="recipe-category" name="category" class="form-select">
+                                    <th:block th:insert="~{commonParts/optionForSelectCategory::optionForSelectCategory}"></th:block>
+                                </select>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label for="file" class="form-label">Фото:</label>
+                                <input id="file" type="file" name="file" class="form-control">
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-12">
+                                <label for="text" class="form-label">Текст рецепта:</label>
+                                <textarea id="text" name="text" class="form-control" rows="10"
+                                          th:classappend="${textError != null} ? 'is-invalid' : ''" th:text="${recipe.text}"></textarea>
+                                <small class="form-text text-muted">Пожалуйста, введите подробный текст рецепта.</small>
+                                <div th:if="${textError != null}" class="invalid-feedback"><span th:text="${textError}"></span></div>
+                            </div>
+                        </div>
+
+                        <div class="d-flex justify-content-end">
+                            <button type="submit" class="btn btn-primary">Сохранить рецепт</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <th:block th:insert="~{commonParts/footer::footer}"></th:block>
+    </body>
+</html>

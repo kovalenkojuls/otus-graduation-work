@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+    <th:block th:insert="~{commonParts/header::header}"></th:block>
+
+    <body class="d-flex align-items-center justify-content-center">
+        <div class="container col-md-3 mx-auto">
+            <h1 class="text-center">Вход в приложение</h1>
+
+            <p class="alert alert-danger" th:if="${errorMessage}" th:text="${errorMessage}"></p>
+            <p class="alert alert-success" th:if="${successMessage}" th:text="${successMessage}"></p>
+
+            <form th:action="@{/login}" method="post" class="mt-4">
+                <div class="mb-3">
+                    <label for="username" class="form-label">Имя</label>
+                    <input type="text" id="username" name="username" class="form-control" placeholder="Имя" required />
+                </div>
+                <div class="mb-3">
+                    <label for="password" class="form-label">Пароль</label>
+                    <input type="password" id="password" name="password" class="form-control" placeholder="Пароль" required />
+                </div>
+                <button type="submit" class="btn btn-primary w-100">Войти</button>
+                <div class="text-center mt-3">
+                    <a th:href="@{/register}" class="btn btn-outline-secondary w-100">Регистрация нового пользователя</a>
+                </div>
+            </form>
+        </div>
+        <th:block th:insert="~{commonParts/footer::footer}"></th:block>
+    </body>
+</html>

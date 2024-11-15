@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+    <html lang="ru" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+    <th:block th:insert="~{commonParts/header::header}"></th:block>
+    <body class="container">
+        <th:block th:insert="~{commonParts/navigationBar::navigationBar}"></th:block>
+        <div class="profile-header d-flex align-items-center justify-content-between mb-4 p-3 mt-3 bg-light border">
+            <h1 class="mb-0 h4 text-dark">Список рецептов пользователя <span th:text="${user.username}"></span>:</h1>
+            <a th:if="${not currentUser.followings.contains(user)}" th:href="@{/users/follow/{user}(user=${user.id})}" class="btn btn-outline-primary">
+                Подписаться на <span th:text="${user.username}"></span>
+            </a>
+            <a th:if="${currentUser.followings.contains(user)}" th:href="@{/users/unfollow/{user}(user=${user.id})}" class="btn btn-outline-danger">
+                Отписаться от <span th:text="${user.username}"></span>
+            </a>
+        </div>
+        <th:block th:insert="~{commonParts/recipesList::recipesList}"></th:block>
+        <th:block th:insert="~{commonParts/footer::footer}"></th:block>
+    </body>
+</html>
